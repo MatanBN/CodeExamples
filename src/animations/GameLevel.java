@@ -15,6 +15,7 @@ import listeners.BallRemover;
 import listeners.BlockRemover;
 import listeners.ScoreTrackingListener;
 import sprites.*;
+import sun.org.mozilla.javascript.internal.ast.Block;
 
 import java.awt.Color;
 import java.util.List;
@@ -34,7 +35,6 @@ public class GameLevel implements Animation {
     private SpriteCollection sprites; // All of the sprites in the game.
     private GameEnvironment environment; // The game environment.
     private Counter blockCounter; // The block counter of the game.
-    private Counter ballCounter; // The ball counter of the game.
     private AnimationRunner runner; // The animation runner of the game/
     private boolean running; // A boolean variable if the game runs or not.
     private KeyboardSensor keyboard; // The keyboard sensor of the game.
@@ -55,7 +55,6 @@ public class GameLevel implements Animation {
         sprites = new SpriteCollection();
         environment = new GameEnvironment();
         blockCounter = new Counter();
-        ballCounter = new Counter();
         myLevel = level;
         this.keyboard = key;
         this.runner = runner;
@@ -130,10 +129,23 @@ public class GameLevel implements Animation {
         for (BaseBlock baseBlock : myBlocks) {
             baseBlock.addHitListener(new BlockRemover(this, blockCounter));
             baseBlock.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-            baseBlock.addHitListener(new BallRemover(this, ballCounter));
+            baseBlock.addHitListener(new BallRemover(this, new Counter()));
             baseBlock.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
+
+        //Create shields
+        for(int i = 0; i<3; i++) {
+            for (int j = 0; j<3; j++) {
+                for (int k = 0; k < 100; k++) {
+                    Rectangle r = new Rectangle(100 + k + j*250, 500 + i, 20, 20);
+                    BaseBlock shield = new BaseBlock(r, new ColorSprite(r, Color.cyan));
+                    shield.addHitListener(new BlockRemover(this, new Counter()));
+                    shield.addHitListener(new BallRemover(this, new Counter()));
+                    shield.addToGame(this);
+                }
+            }
+        }
 
         addSprite(lives);
         addSprite(myScore);
@@ -146,7 +158,7 @@ public class GameLevel implements Animation {
         Rectangle r = new Rectangle(0, y, width, height);
         BaseBlock deathBorder = new BaseBlock(0, y, width, height,
                 new ColorSprite(r, Color.black));
-        deathBorder.addHitListener(new BallRemover(this, ballCounter));
+        deathBorder.addHitListener(new BallRemover(this, new Counter()));
         addCollidable(deathBorder);
     }
 
