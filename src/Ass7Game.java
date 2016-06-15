@@ -19,7 +19,7 @@ public class Ass7Game {
      * @param args the input from command line.
      */
     public static void main(String[] args) {
-        GUI gui = new GUI("Space Invaders", 800, 600);
+        GUI gui = new GUI("Space Invader", 800, 600);
         AnimationRunner myAnimationRunner = new AnimationRunner(60, gui);
         HighScoresTable myScores = new HighScoresTable(10);
         try {

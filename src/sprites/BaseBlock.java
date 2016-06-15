@@ -40,19 +40,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
     }
 
     /**
-     * BaseBlock creates a new rectangle block by a given rectangle.
-     *
-     * @param r    is a given rectangle.
-     * @param fill the fill of the block.
-     */
-    public BaseBlock(Rectangle r, Sprite fill) {
-        this.rectangle = r;
-        this.rectangle.setFilling(fill);
-        this.hitListeners = new ArrayList();
-    }
-
-
-    /**
      * BaseBlock creates a new rectangle block by it's left corner coordinates,
      * width and height.
      *
@@ -62,7 +49,7 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * @param height     is the rectangle's height.
      * @param fill    the fillers of the block/rectangle.
      */
-    public BaseBlock(int x, int y, int width, int height, Sprite fill) {
+    public BaseBlock(int x, int y, int width, int height, Color fill) {
         this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
     }
@@ -98,22 +85,8 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * @param currentVelocity is the current velocity of the object that will collide with the block.
      * @return the new velocity after the hit.
      */
-    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
-        Velocity newVelocity = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
-        // Checks whether the collision point is on the right or left edges.
-        if (checkCollisionSide(collisionPoint, rectangle.getLeftEdge())) {
-            newVelocity.setDx(-currentVelocity.getDx());
-        } else if (checkCollisionSide(collisionPoint, rectangle.getRightEdge())) {
-            newVelocity.setDx(-currentVelocity.getDx());
-        }
-        // Checks whether the collision point is on the top or bottom edges.
-        if (checkCollisionSide(collisionPoint, rectangle.getTopEdge())) {
-            newVelocity.setDy(-currentVelocity.getDy());
-        } else if (checkCollisionSide(collisionPoint, rectangle.getBottomEdge())) {
-            newVelocity.setDy(-currentVelocity.getDy());
-        }
+    public void hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         this.notifyHit(hitter);
-        return newVelocity;
     }
 
     /**

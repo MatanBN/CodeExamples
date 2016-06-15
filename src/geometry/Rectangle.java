@@ -18,7 +18,7 @@ public class Rectangle {
     private Point upperLeft; // The upperLeft corner of the rectangle.
     private int width; // The width of the rectangle.
     private int height; // The height of the rectangle
-    private Sprite filler; // The filling of the rectangle
+    private Color filler; // The filling of the rectangle
 
     /**
      * Rectangle is the constructor and creates the rectangle with upper left
@@ -43,7 +43,7 @@ public class Rectangle {
      * @param height  the desired height of the rectangle.
      * @param fill the filling of the rectangle.
      */
-    public Rectangle(int width, int height, Sprite fill) {
+    public Rectangle(int width, int height, Color fill) {
         this.upperLeft = new Point(0, 0);
         this.width = width;
         this.height = height;
@@ -75,7 +75,7 @@ public class Rectangle {
      * @param height the desired height of the rectangle.
      * @param fill  the filling of the rectangle.
      */
-    public Rectangle(int x, int y, int width, int height, Sprite fill) {
+    public Rectangle(int x, int y, int width, int height, Color fill) {
         this.upperLeft = new Point(x, y);
         this.width = width;
         this.height = height;
@@ -91,7 +91,7 @@ public class Rectangle {
      * @param height    the desired height of the rectangle.
      * @param fill      the filling of the rectangle.
      */
-    public Rectangle(Point upperLeft, int width, int height, Sprite fill) {
+    public Rectangle(Point upperLeft, int width, int height, Color fill) {
         this.upperLeft = upperLeft;
         this.width = width;
         this.height = height;
@@ -169,8 +169,8 @@ public class Rectangle {
      * @param d the DrawSurface to draw the rectangle on.
      */
     public void drawOn(DrawSurface d) {
-            filler.drawOn(d);
-
+        d.setColor(filler);
+        d.fillRectangle((int) this.upperLeft.getX(), (int) this.upperLeft.getY(), this.width, this.getHeight());
     }
 
     /**
@@ -243,13 +243,4 @@ public class Rectangle {
         return upperLeft;
     }
 
-
-    /**
-     * Set the filler of the rectangle.
-     *
-     * @param fill the new filler of the rectangle.
-     */
-    public void setFilling(Sprite fill) {
-        this.filler = fill;
-    }
 }

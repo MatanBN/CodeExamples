@@ -1,7 +1,6 @@
 package game;
 
-import sprites.BaseBlock;
-import sprites.Invaders;
+import sprites.Invader;
 import sprites.Sprite;
 
 import java.util.List;
@@ -50,18 +49,11 @@ public interface LevelInformation {
     String levelName();
 
     /**
-     * getBackground method returns a Sprite of the background of this level.
-     *
-     * @return a Sprite of this background's level.
-     */
-    Sprite getBackground();
-
-    /**
      * blocks method returns a list of blocks of this level.
      *
      * @return a list of blocks of this level.
      */
-    List<Invaders> blocks();
+    List<Invader> blocks();
 
     /**
      * numberOfBlocksToRemove method returns the number of blocks in this level.

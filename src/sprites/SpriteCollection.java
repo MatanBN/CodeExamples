@@ -45,7 +45,8 @@ public class SpriteCollection {
      * @param dt specifies the amount of seconds passed since the last call.
      */
     public void notifyAllTimePassed(double dt) {
-        for (Sprite s : sprites) {
+        ArrayList<Sprite> spritesCopy = new ArrayList<>(sprites);
+        for (Sprite s : spritesCopy) {
             s.timePassed(dt);
         }
     }
@@ -56,7 +57,9 @@ public class SpriteCollection {
      * @param d is the surface to draw the sprites on.
      */
     public void drawAllOn(DrawSurface d) {
-        for (Sprite s : sprites) {
+        ArrayList<Sprite> spritesCopy = new ArrayList<>(sprites);
+
+        for (Sprite s : spritesCopy) {
             s.drawOn(d);
         }
     }

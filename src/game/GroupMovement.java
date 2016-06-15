@@ -1,23 +1,21 @@
 package game;
 
-import sprites.Invaders;
-import sprites.Sprite;
-import sprites.SpriteCollection;
-
-import java.util.ArrayList;
 
 /**
  * Created by Matan on 6/15/2016.
  */
 public class GroupMovement {
+    private int speed;
 
-    public void verticalMovement() {
-        for (Invaders s : invaders) {
-            Invaders inv = (Invaders) s;
-            inv.goDown();
-            inv.setSpeed(inv.getSpeed() + Math.signum(inv.getSpeed()) * 10);
-            inv.setSpeed(inv.getSpeed() * -1);
-        }
+    public GroupMovement(int speed) {
+        this.speed = speed;
     }
 
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

@@ -16,17 +16,14 @@ import sprites.BaseBlock;
 
 public class BallRemover implements HitListener {
     private GameLevel gameLevel;  //The current gamelevel
-    private Counter remainingBalls; //A counter of the remaining balls
 
     /**
      * The constructor gets the gamelevel and a counter of the removed balls.
      *
      * @param gameLevel    is the current gamelevel of the game.
-     * @param removedBalls a counter that holds the removed balls number.
      */
-    public BallRemover(GameLevel gameLevel, Counter removedBalls) {
+    public BallRemover(GameLevel gameLevel) {
         this.gameLevel = gameLevel;
-        this.remainingBalls = removedBalls;
     }
 
     // Blocks that are hit and reach 0 hit-points should be removed
@@ -41,6 +38,5 @@ public class BallRemover implements HitListener {
      */
     public void hitEvent(BaseBlock deathRegion, Ball beingHit) {
         beingHit.removeFromGame(gameLevel);
-        remainingBalls.decrease(1);
     }
 }

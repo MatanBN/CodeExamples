@@ -15,7 +15,6 @@ import listeners.BallRemover;
 import listeners.BlockRemover;
 import listeners.ScoreTrackingListener;
 import sprites.*;
-import sun.org.mozilla.javascript.internal.ast.Block;
 
 import java.awt.Color;
 import java.util.List;
@@ -42,7 +41,7 @@ public class GameLevel implements Animation {
     private Paddle paddle; // The paddle of the game.
     private LiveIndicator liveIndicator; // The live indicator of the game.
     private long startTime;
-    private GroupMovement invaders;
+    private GroupMovement gm;
 
     /**
      * Constructor to create the GameLevel.
@@ -51,14 +50,14 @@ public class GameLevel implements Animation {
      * @param key    the keyboard sensor of the game.
      * @param runner the animation runner of the game.
      */
-    public GameLevel(LevelInformation level, KeyboardSensor key, AnimationRunner runner) {
+    public GameLevel(LevelInformation level, KeyboardSensor key, AnimationRunner runner, GroupMovement gm) {
         sprites = new SpriteCollection();
         environment = new GameEnvironment();
         blockCounter = new Counter();
         myLevel = level;
         this.keyboard = key;
         this.runner = runner;
-        this.invaders = new GroupMovement();
+        this.gm = gm;
     }
 
     /**
@@ -105,45 +104,48 @@ public class GameLevel implements Animation {
      * @param myScore is number of the score.
      */
     public void initialize(LiveIndicator lives, ScoreIndicator myScore) {
-        geometry.Rectangle borders = new Rectangle(800, 600);
+        geometry.Rectangle borders = new Rectangle(800, 600, Color.black);
         liveIndicator = lives;
-        addSprite(myLevel.getBackground());
+        addSprite(new BaseBlock(borders));
 
         // Create the paddle.
         Rectangle paddleRec = new Rectangle(360 - myLevel.paddleWidth() / 2, borders.getHeight() - 51,
-                myLevel.paddleWidth(), 10);
-        paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed(),
-                new ColorSprite(paddleRec, Color.GREEN));
+                myLevel.paddleWidth(), 10, Color.green);
+        paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed());
         paddle.addToGame(this);
         addDeathBorder(borders.getMaxY(), borders.getMaxX(), 20);
         addDeathBorder(0, borders.getMaxX(), 20);
 
         // Create the score indicator
         Rectangle infoFrame = new Rectangle(0, 0, borders.getMaxX(), 20);
-        Rectangle infoFrameFilled = new Rectangle(infoFrame.getUpperLeft(), borders.getMaxX(), 20,
-                new ColorSprite(infoFrame, Color.white));
+        Rectangle infoFrameFilled = new Rectangle(infoFrame.getUpperLeft(), borders.getMaxX(), 20, Color.white);
         BaseBlock playInfo = new BaseBlock(infoFrameFilled);
         playInfo.addToGame(this);
 
 
-        List<Invaders> invaders = myLevel.blocks();
-        for (Invaders invader : invaders) {
+        List<Invader> invaders = myLevel.blocks();
+        for (Invader invader : invaders) {
             invader.addHitListener(new BlockRemover(this, blockCounter));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-            invader.addHitListener(new BallRemover(this, new Counter()));
-            GroupMovement
+            invader.addHitListener(new BallRemover(this));
+            invader.setGm(gm);
             invader.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
+        int shieldPixelWidth = 2;
+        int shieldPixelHeight = 2;
 
         //Create shields
-        for(int i = 0; i<3; i++) {
-            for (int j = 0; j<3; j++) {
-                for (int k = 0; k < 100; k++) {
-                    Rectangle r = new Rectangle(100 + k + j*250, 500 + i, 20, 20);
-                    BaseBlock shield = new BaseBlock(r, new ColorSprite(r, Color.cyan));
+        for (int i = 0; i < 3; i++) {
+            int shieldStartX = i * 200;
+
+            for (int j = 0; j < 10; j++) {
+                for (int k = 0; k < 75; k++) {
+                    Rectangle r = new Rectangle(100 + k * shieldPixelWidth + shieldStartX, 500 + j * shieldPixelHeight,
+                            shieldPixelWidth, shieldPixelHeight, Color.cyan);
+                    BaseBlock shield = new BaseBlock(r);
                     shield.addHitListener(new BlockRemover(this, new Counter()));
-                    shield.addHitListener(new BallRemover(this, new Counter()));
+                    shield.addHitListener(new BallRemover(this));
                     shield.addToGame(this);
                 }
             }
@@ -155,16 +157,11 @@ public class GameLevel implements Animation {
         this.startTime = System.currentTimeMillis();
     }
 
-    public void addInvader(Invaders inv) {
-        invaders.addSprite(inv);
-    }
-
     private void addDeathBorder(int y, int width, int height) {
         // Create the death border.
         Rectangle r = new Rectangle(0, y, width, height);
-        BaseBlock deathBorder = new BaseBlock(0, y, width, height,
-                new ColorSprite(r, Color.black));
-        deathBorder.addHitListener(new BallRemover(this, new Counter()));
+        BaseBlock deathBorder = new BaseBlock(new Rectangle(0, y, width, height));
+        deathBorder.addHitListener(new BallRemover(this));
         addCollidable(deathBorder);
     }
 
@@ -186,7 +183,7 @@ public class GameLevel implements Animation {
      */
     public void playOneTurn() {
         paddle.relocatePaddle(360 - myLevel.paddleWidth() / 2);
-        this.runner.run(new CountdownAnimation(2, 3, sprites, invaders)); // countdown before turn starts.
+        this.runner.run(new CountdownAnimation(2, 3, sprites)); // countdown before turn starts.
 
         this.running = true;
         // use our runner to run the current animation -- which is one turn of
@@ -214,9 +211,7 @@ public class GameLevel implements Animation {
         // the `return` or `break` statements should be replaced with
         // this.running = false;
         this.sprites.drawAllOn(d);
-        this.invaders.drawAllOn(d);
         this.sprites.notifyAllTimePassed(dt);
-        this.invaders.notifyAllTimePassed(dt);
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }

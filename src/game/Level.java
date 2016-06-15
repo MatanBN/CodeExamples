@@ -77,31 +77,20 @@ public class Level implements LevelInformation {
     }
 
     /**
-     * getBackground method returns a Sprite of the background of this level.
-     *
-     * @return a Sprite of this background's level.
-     */
-    @Override
-    public Sprite getBackground() {
-
-        return new ColorSprite(r, Color.black);
-    }
-
-    /**
      * blocks method returns a list of blocks of this level.
      *
      * @return a list of blocks of this level.
      */
     @Override
-    public List<Invaders> blocks() {
-        List<Invaders> levelInvaders = new ArrayList<Invaders>();
+    public List<Invader> blocks() {
+        List<Invader> levelInvaders = new ArrayList<Invader>();
         int currentX = 40;
         int currentY = 50;
         ImageParser ip = new ImageParser();
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 10; ++j) {
                 Rectangle r = new Rectangle(currentX, currentY, 40, 30);
-                Invaders invader = new Invaders(r, new ImageSprite(r, ip.imageFromString("enemy.png")));
+                Invader invader = new Invader(r, ip.imageFromString("enemy.png"));
                 levelInvaders.add(invader);
                 currentX += 50;
             }
