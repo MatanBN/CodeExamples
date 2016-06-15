@@ -44,8 +44,6 @@ public class GameFlow {
     private ScoreIndicator score;
     private HighScoresTable scoresTable;
     private List<LevelInformation> levels;
-    private String levelSets;
-    private Map<String, ArrayList<String>> levelsMap;
 
 
     /**
@@ -55,17 +53,13 @@ public class GameFlow {
      * @param ks          The KeyboardSensor of the game.
      * @param lives       is the number of live.
      * @param scoresTable is the HighScores table of the game.
-     * @param fileName    is a list with the levels of the game.
      */
-    public GameFlow(AnimationRunner ar, KeyboardSensor ks, int lives, HighScoresTable scoresTable, String fileName) {
+    public GameFlow(AnimationRunner ar, KeyboardSensor ks, int lives, HighScoresTable scoresTable) {
         this.ar = ar;
         this.ks = ks;
         this.lives = lives;
         this.score = new ScoreIndicator();
         this.scoresTable = scoresTable;
-        this.levelSets = fileName;
-
-
     }
 
     /**
@@ -73,9 +67,17 @@ public class GameFlow {
      * and runs the task that the user chooses.
      */
     public void chooseTask() {
-        final Menu<Task<Void>> menu = new MenuAnimation<Task<Void>>(ks, ar, "please choose:");
+        Menu<Task<Void>> menu = new MenuAnimation<Task<Void>>(ks, ar, "please choose:");
 
         //Anonymous classes that defines each task's run method.
+        Task<Void> playGame = new Task<Void>() {
+            @Override
+            public Void run() {
+                runLevels(levels);
+                return null;
+            }
+        };
+
         Task<Void> hiScores = new Task<Void>() {
             @Override
             public Void run() {
@@ -95,15 +97,9 @@ public class GameFlow {
             }
         };
 
-        Menu<Task<Void>> subMenu = new MenuAnimation<Task<Void>>(ks, ar, "Choose difficulty");
-        List<LevelSet> theLevelSets = readSubLevels(levelSets);
-        for (LevelSet currentLevelSet : theLevelSets) {
-            subMenu.addSelection(currentLevelSet.getKey(), currentLevelSet.getName(), currentLevelSet.getSetTask());
-        }
-
         // Adding the tasks to the tasks list.
         menu.addSelection("h", "High scores", hiScores);
-        menu.addSubMenu("s", "Play", subMenu);
+        menu.addSubMenu("s", "Play", playGame);
         menu.addSelection("q", "Quit", quitGame);
 
         while (true) {
@@ -230,71 +226,6 @@ public class GameFlow {
         this.chooseTask();
     }
 
-    /**
-     * readSubLevels method returns information on the keys of the level sets and the path of the files for them.
-     *
-     * @param fileName the file name for level sets.
-     * @return a map which will include the key to navigate through the sub menu and the value will be an array list
-     * of the name of the level set and the path of the file for them.
-     */
 
-    public List<LevelSet> readSubLevels(String fileName) {
-        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
-        LineNumberReader reader = new LineNumberReader(new InputStreamReader(is));
-        List<LevelSet> theLevelSets = new ArrayList<LevelSet>();
-        String[] levelKeyName = null;
-        String line;
-        LevelSet currentLevelSet = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                if (line.equals("")) {
-                    continue;
-                }
-                if (reader.getLineNumber() % 2 == 1) {
-                    levelKeyName = line.split(":");
-                    currentLevelSet = new LevelSet(levelKeyName[0], levelKeyName[1]);
-                } else {
-                    currentLevelSet.setLevelPath(line);
-                    currentLevelSet.setSetTask();
-                    theLevelSets.add(currentLevelSet);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Unable to read set files");
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println("Error closing sets file");
-                }
-            }
-        }
-        return theLevelSets;
-    }
-
-    /**
-     * getListOfLevels gets a file of levels and returns a list with levels.
-     *
-     * @param levelFileNames the file of the levels.
-     * @return list of levels.
-     */
-    public List<LevelInformation> getListOfLevels(String levelFileNames) {
-        BufferedReader buffer = null;
-        List<LevelInformation> theLevels = null;
-        LevelSpecificationReader levelReader = new LevelSpecificationReader(new Rectangle(0, 0, 800, 600));
-        InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(
-                levelFileNames);
-        buffer = new BufferedReader(new InputStreamReader(is));
-        theLevels = levelReader.fromReader(buffer);
-        if (buffer != null) {
-            try {
-                buffer.close();
-            } catch (IOException e) {
-                System.out.println("Error closing level file");
-            }
-        }
-        return theLevels;
-    }
 
 }

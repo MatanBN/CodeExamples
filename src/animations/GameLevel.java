@@ -143,10 +143,10 @@ public class GameLevel implements Animation {
 
         List<Block> myBlocks = myLevel.blocks();
         for (Block block : myBlocks) {
-            Block b = block.copy();
-            b.addHitListener(new BlockRemover(this, blockCounter));
-            b.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-            b.addHitListener(new BlockChanger());
+                Block b = block.copy();
+                b.addHitListener(new BlockRemover(this, blockCounter));
+                b.addHitListener(new ScoreTrackingListener(myScore.getScore()));
+                b.addHitListener(new Blockhanger());
             b.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());

@@ -18,8 +18,7 @@ public class Rectangle {
     private Point upperLeft; // The upperLeft corner of the rectangle.
     private int width; // The width of the rectangle.
     private int height; // The height of the rectangle
-    private Sprite filling; // The filling of the rectangle
-    private Color color; // The color of the frame.
+    private Sprite filler; // The filling of the rectangle
 
     /**
      * Rectangle is the constructor and creates the rectangle with upper left
@@ -42,15 +41,13 @@ public class Rectangle {
      *
      * @param width   the desired width of the rectangle.
      * @param height  the desired height of the rectangle.
-     * @param c       the desired color of the rectangle.
-     * @param filling the filling of the rectangle.
+     * @param filler the filling of the rectangle.
      */
-    public Rectangle(int width, int height, Color c, Sprite filling) {
+    public Rectangle(int width, int height, Sprite fill) {
         this.upperLeft = new Point(0, 0);
         this.width = width;
         this.height = height;
-        this.color = c;
-        this.filling = filling;
+        this.filler = fill;
     }
 
     /**
@@ -76,15 +73,13 @@ public class Rectangle {
      * @param y      the y coordinate to start the rectangle from.
      * @param width  the desired width of the rectangle.
      * @param height the desired height of the rectangle.
-     * @param c      the desired color of the rectangle.
-     * @param fill   the filling of the rectangle.
+     * @param fill  the filling of the rectangle.
      */
-    public Rectangle(int x, int y, int width, int height, Color c, Sprite fill) {
+    public Rectangle(int x, int y, int width, int height, Sprite fill) {
         this.upperLeft = new Point(x, y);
         this.width = width;
         this.height = height;
-        this.color = c;
-        this.filling = fill;
+        this.filler = fill;
     }
 
     /**
@@ -94,15 +89,13 @@ public class Rectangle {
      * @param upperLeft the x,y coordinates to start the rectangle from.
      * @param width     the desired width of the rectangle.
      * @param height    the desired height of the rectangle.
-     * @param c         the desired color of the rectangle.
      * @param fill      the filling of the rectangle.
      */
-    public Rectangle(Point upperLeft, int width, int height, Color c, Sprite fill) {
+    public Rectangle(Point upperLeft, int width, int height, Sprite fill) {
         this.upperLeft = upperLeft;
         this.width = width;
         this.height = height;
-        this.color = c;
-        this.filling = fill;
+        this.filler = fill;
     }
 
     /**
@@ -174,18 +167,10 @@ public class Rectangle {
      * drawOn method draws the rectangle.
      *
      * @param d the DrawSurface to draw the rectangle on.
-     * @throws NullPointerException if the color hasn't been initialized.
      */
-    public void drawOn(DrawSurface d) throws NullPointerException {
-        try {
-            filling.drawOn(d);
-            if (color != null) {
-                d.setColor(color);
-                d.drawRectangle(this.getX(), this.getY(), this.width, this.height);
-            }
-        } catch (NullPointerException e) {
-            System.out.println("You must set a color for the rectangle in order to draw it.");
-        }
+    public void drawOn(DrawSurface d) {
+            filler.drawOn(d);
+
     }
 
     /**
@@ -258,23 +243,6 @@ public class Rectangle {
         return upperLeft;
     }
 
-    /**
-     * getColor method returns the color of the rectangle.
-     *
-     * @return the color of the rectangle.
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * setColor method sets the color of the rectangle.
-     *
-     * @param c the desired color for the rectangle.
-     */
-    public void setColor(Color c) {
-        this.color = c;
-    }
 
     /**
      * Set the filler of the rectangle.
@@ -282,6 +250,6 @@ public class Rectangle {
      * @param fill the new filler of the rectangle.
      */
     public void setFilling(Sprite fill) {
-        this.filling = fill;
+        this.filler = fill;
     }
 }

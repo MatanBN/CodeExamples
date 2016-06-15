@@ -30,7 +30,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
     private int hitsNumber; // The number of hits of the block.
     private int totalHits;
     private List<HitListener> hitListeners;
-    private ArrayList<Sprite> fillers;
+    private Sprite filler;
 
     /**
      * Block creates a new rectangle block by a given rectangle.
@@ -40,44 +40,25 @@ public class Block implements Collidable, Sprite, HitNotifier {
     public Block(Rectangle r) {
         this.rectangle = r;
         this.hitListeners = new ArrayList();
-        fillers = new ArrayList<Sprite>();
 
     }
 
     /**
-     * sprites.Block creates a new rectangle block by it's left corner coordinates,
+     * Block creates a new rectangle block by it's left corner coordinates,
      * width and height.
      *
      * @param x          is the x coordinate of left corner.
      * @param y          is the y coordinate of left corner.
      * @param width      is the rectangle's width.
      * @param height     is the rectangle's height.
-     * @param frameColor the color of the block/rectangle frame.
-     * @param fillers    the fillers of the block/rectangle.
+     * @param fill    the fillers of the block/rectangle.
      */
-    public Block(int x, int y, int width, int height, Color frameColor, ArrayList<Sprite> fillers) {
-        this.rectangle = new Rectangle(x, y, width, height, frameColor, fillers.get(0));
+    public Block(int x, int y, int width, int height, Sprite fill) {
+        this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
-        this.fillers = fillers;
+        this.filler = fill;
     }
 
-    /**
-     * sprites.Block creates a new rectangle block by it's left corner coordinates,
-     * width and height.
-     *
-     * @param x          is the x coordinate of left corner.
-     * @param y          is the y coordinate of left corner.
-     * @param width      is the rectangle's width.
-     * @param height     is the rectangle's height.
-     * @param frameColor the color of the block/rectangle frame.
-     * @param filler     the filler of the block/rectangle.
-     */
-    public Block(int x, int y, int width, int height, Color frameColor, Sprite filler) {
-        this.rectangle = new Rectangle(x, y, width, height, frameColor, filler);
-        this.hitListeners = new ArrayList();
-        this.fillers = new ArrayList<Sprite>();
-        fillers.add(filler);
-    }
 
 
     /**
@@ -234,26 +215,5 @@ public class Block implements Collidable, Sprite, HitNotifier {
     public void setHitsNumber(int hits) {
         totalHits = hits;
         hitsNumber = hits;
-    }
-
-    /**
-     * setFiller method sets the filler according to the number of hit points left to the block.
-     */
-    public void setFiller() {
-        if (fillers.size() > getHitPoints()) {
-            rectangle.setFilling(fillers.get(totalHits - hitsNumber));
-        }
-    }
-
-    /**
-     * copy method copies a block and returns the copy.
-     *
-     * @return a copy of the block.
-     */
-    public Block copy() {
-        Rectangle r = this.getRectangle();
-        Block b = new Block(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r.getColor(), fillers);
-        b.setHitsNumber(totalHits);
-        return b;
     }
 }

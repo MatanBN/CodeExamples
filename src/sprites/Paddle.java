@@ -25,6 +25,7 @@ public class Paddle implements Sprite, Collidable {
     private Rectangle borders; // A rectangle with the borders of the surface
     private ArrayList regions; // 5 different regions of the paddle.
     private int speed;
+    private Sprite filler;
 
     /**
      * The constructor creates the paddle.
@@ -33,14 +34,12 @@ public class Paddle implements Sprite, Collidable {
      * @param rec     is the rectangle with the parameter for the paddle.
      * @param border  is surface border.
      * @param speed   the speed of the paddle.
-     * @param color   is the frame color of the paddle.
-     * @param filling is the filling of the paddle.
+     * @param fill is the filling of the paddle.
      */
-    public Paddle(biuoop.KeyboardSensor key, geometry.Rectangle rec, Rectangle border, int speed, Color color,
-                  Sprite filling) {
+    public Paddle(biuoop.KeyboardSensor key, geometry.Rectangle rec, Rectangle border, int speed, Sprite fill) {
         this.keyboard = key;
         this.speed = speed;
-        this.rectangle = new Rectangle(rec.getUpperLeft(), rec.getWidth(), rec.getHeight(), color, filling);
+        this.rectangle = new Rectangle(rec.getUpperLeft(), rec.getWidth(), rec.getHeight(), fill);
         this.borders = border;
         this.regions = new ArrayList();
         int fifthRec = rec.getWidth() / 5;
@@ -160,56 +159,7 @@ public class Paddle implements Sprite, Collidable {
      * @return the new velocity after the hit.
      */
     public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
-        if (collisionPoint.getY() > this.rectangle.getY()) {
-            Block block = new Block(this.getCollisionRectangle());
-            return block.hit(hitter, collisionPoint, currentVelocity);
-        }
-        double angle = determineHitPoint(collisionPoint);
-        if (angle == 3) {
-            Block block = new Block(this.getCollisionRectangle());
-            return block.hit(hitter, collisionPoint, currentVelocity);
-        } else {
-            return Velocity.fromAngleAndSpeed(angle,
-                    Math.sqrt(Math.pow(currentVelocity.getDx(), 2) + Math.pow(currentVelocity.getDy(), 2)));
-        }
-    }
-
-    /**
-     * determineHitPoint checks in what region was the collision and returns the
-     * angle accordingly.
-     *
-     * @param collisionPoint is the collision point of an object with the paddle.
-     * @return the angle to adjust the velocity.
-     */
-    private double determineHitPoint(Point collisionPoint) {
-        int i;
-        for (i = 0; i < 5; ++i) {
-            if (((Line) (regions.get(i))).inXSegment(collisionPoint.getX())) {
-                break;
-            }
-        }
-        int angle;
-        switch (i) {
-            case 0:
-                angle = 300;
-                break;
-            case 1:
-                angle = 330;
-                break;
-            case 2:
-                angle = 3;
-                break;
-            case 3:
-                angle = 30;
-                break;
-            case 4:
-                angle = 60;
-                break;
-            default:
-                angle = 0;
-                break;
-        }
-        return angle;
+        return null;
     }
 
     /**
