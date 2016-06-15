@@ -27,10 +27,7 @@ import java.util.List;
  */
 public class BaseBlock implements Collidable, Sprite, HitNotifier {
     private geometry.Rectangle rectangle; // The rectangle shape of the block.
-    private int hitsNumber; // The number of hits of the block.
-    private int totalHits;
     private List<HitListener> hitListeners;
-    private int speed;
 
     /**
      * BaseBlock creates a new rectangle block by a given rectangle.
@@ -40,7 +37,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
     public BaseBlock(Rectangle r) {
         this.rectangle = r;
         this.hitListeners = new ArrayList();
-        this.speed = 10;
     }
 
     /**
@@ -53,7 +49,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
         this.rectangle = r;
         this.rectangle.setFilling(fill);
         this.hitListeners = new ArrayList();
-        this.speed = 10;
     }
 
 
@@ -70,7 +65,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
     public BaseBlock(int x, int y, int width, int height, Sprite fill) {
         this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
-        this.speed = 10;
     }
 
 
@@ -105,9 +99,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * @return the new velocity after the hit.
      */
     public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
-        if (this.hitsNumber > 0) {
-            --this.hitsNumber;
-        }
         Velocity newVelocity = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
         // Checks whether the collision point is on the right or left edges.
         if (checkCollisionSide(collisionPoint, rectangle.getLeftEdge())) {
@@ -211,16 +202,4 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
 
     }
 
-    /**
-     * getHitPoints returns block's number of hits.
-     *
-     * @return the block's number of hits.
-     */
-    public int getHitPoints() {
-        return hitsNumber;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
 }

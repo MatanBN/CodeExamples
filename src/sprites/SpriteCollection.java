@@ -12,13 +12,13 @@ import java.util.ArrayList;
  */
 
 public class SpriteCollection {
-    private ArrayList sprites;
+    private ArrayList<Sprite> sprites;
 
     /**
      * The constructor creates a new list for the sprites.
      */
     public SpriteCollection() {
-        sprites = new ArrayList();
+        sprites = new ArrayList<Sprite>();
     }
 
     /**
@@ -45,9 +45,8 @@ public class SpriteCollection {
      * @param dt specifies the amount of seconds passed since the last call.
      */
     public void notifyAllTimePassed(double dt) {
-        ArrayList spritesCopy = new ArrayList(sprites);
-        for (Object s : spritesCopy) {
-            ((Sprite) s).timePassed(dt);
+        for (Sprite s : sprites) {
+            s.timePassed(dt);
         }
     }
 
@@ -57,9 +56,8 @@ public class SpriteCollection {
      * @param d is the surface to draw the sprites on.
      */
     public void drawAllOn(DrawSurface d) {
-        ArrayList spritesCopy = new ArrayList(sprites);
-        for (Object s : spritesCopy) {
-            ((Sprite) s).drawOn(d);
+        for (Sprite s : sprites) {
+            s.drawOn(d);
         }
     }
 
@@ -70,7 +68,10 @@ public class SpriteCollection {
      * @return the required sprite from the list.
      */
     public Sprite getSprite(int index) {
-        return (Sprite) sprites.get(index);
+        return sprites.get(index);
     }
 
+    public ArrayList<Sprite> getSprites() {
+        return sprites;
+    }
 }

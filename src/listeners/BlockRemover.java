@@ -39,10 +39,8 @@ public class BlockRemover implements HitListener {
      * @param hitter   is the ball that hit the block.
      */
     public void hitEvent(BaseBlock beingHit, Ball hitter) {
-        if (beingHit.getHitPoints() == 0) {
             beingHit.removeFromGame(gameLevel);
             beingHit.removeHitListener(this);
             remainingBlocks.decrease(1);
-        }
     }
 }
