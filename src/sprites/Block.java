@@ -30,7 +30,6 @@ public class Block implements Collidable, Sprite, HitNotifier {
     private int hitsNumber; // The number of hits of the block.
     private int totalHits;
     private List<HitListener> hitListeners;
-    private Sprite filler;
 
     /**
      * Block creates a new rectangle block by a given rectangle.
@@ -40,8 +39,20 @@ public class Block implements Collidable, Sprite, HitNotifier {
     public Block(Rectangle r) {
         this.rectangle = r;
         this.hitListeners = new ArrayList();
-
     }
+
+    /**
+     * Block creates a new rectangle block by a given rectangle.
+     *
+     * @param r    is a given rectangle.
+     * @param fill the fill of the block.
+     */
+    public Block(Rectangle r, Sprite fill) {
+        this.rectangle = r;
+        this.rectangle.setFilling(fill);
+        this.hitListeners = new ArrayList();
+    }
+
 
     /**
      * Block creates a new rectangle block by it's left corner coordinates,
@@ -56,7 +67,6 @@ public class Block implements Collidable, Sprite, HitNotifier {
     public Block(int x, int y, int width, int height, Sprite fill) {
         this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
-        this.filler = fill;
     }
 
 

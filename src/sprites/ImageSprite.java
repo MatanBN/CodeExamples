@@ -13,7 +13,7 @@ import java.awt.Image;
  * @version 1.0 11 June 2016
  */
 public class ImageSprite implements Sprite {
-    Rectangle frame;
+    private Rectangle frame;
     private Image image; // The image of the background.
 
     /**

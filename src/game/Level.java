@@ -2,6 +2,7 @@ package game;
 
 import sprites.Block;
 import sprites.ColorSprite;
+import sprites.ImageSprite;
 import sprites.Sprite;
 
 import java.awt.Color;
@@ -96,10 +97,21 @@ public class Level implements LevelInformation {
      */
     @Override
     public List<Block> blocks() {
-        Rectangle blockRec = new Rectangle(375, 195, 10, 10);
-        Block block = new Block(375, 195, 10, 10, new ColorSprite(blockRec, Color.red));
         List<Block> myBlocks = new ArrayList<Block>();
-        myBlocks.add(block);
+        int currentX = 30;
+        int currentY = 30;
+        ImageParser ip = new ImageParser();
+        for (int i = 0; i < 5; ++i) {
+            for (int j = 0; j < 10; ++j) {
+                Rectangle r = new Rectangle(currentX, currentY, 40, 30);
+                Block block = new Block(r, new ImageSprite(r, ip.imageFromString("enemy.png")));
+                myBlocks.add(block);
+                currentX += 50;
+
+            }
+            currentY += 30;
+            currentX = 30;
+        }
         return myBlocks;
     }
 
@@ -110,6 +122,6 @@ public class Level implements LevelInformation {
      */
     @Override
     public int numberOfBlocksToRemove() {
-        return 1;
+        return 50;
     }
 }
