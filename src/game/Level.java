@@ -107,7 +107,6 @@ public class Level implements LevelInformation {
                 Block block = new Block(r, new ImageSprite(r, ip.imageFromString("enemy.png")));
                 myBlocks.add(block);
                 currentX += 50;
-
             }
             currentY += 30;
             currentX = 30;
