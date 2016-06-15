@@ -4,7 +4,7 @@ import animations.GameLevel;
 import game.Velocity;
 import geometry.Point;
 import sprites.Ball;
-import sprites.Block;
+import sprites.BaseBlock;
 
 
 /**
@@ -33,7 +33,7 @@ public class BallAdder implements HitListener {
      * @param beingHit is the specific block that is being hit.
      * @param hitter   is the ball that hit the block.
      */
-    public void hitEvent(Block beingHit, Ball hitter) {
+    public void hitEvent(BaseBlock beingHit, Ball hitter) {
         gameLevel.createBall(new Point(50, 90), 2, new Velocity(240, -180));
         beingHit.removeHitListener(this);
     }

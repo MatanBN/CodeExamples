@@ -5,6 +5,7 @@ import biuoop.KeyboardSensor;
 import environment.Collidable;
 import environment.GameEnvironment;
 import game.Counter;
+import game.GroupMovement;
 import game.Velocity;
 import game.LevelInformation;
 import geometry.Rectangle;
@@ -16,8 +17,6 @@ import listeners.ScoreTrackingListener;
 import sprites.*;
 
 import java.awt.Color;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -43,6 +42,8 @@ public class GameLevel implements Animation {
     private Paddle paddle; // The paddle of the game.
     private LiveIndicator liveIndicator; // The live indicator of the game.
     private long startTime;
+    private GroupMovement invaders;
+
     /**
      * Constructor to create the GameLevel.
      *
@@ -121,17 +122,20 @@ public class GameLevel implements Animation {
         Rectangle infoFrame = new Rectangle(0, 0, borders.getMaxX(), 20);
         Rectangle infoFrameFilled = new Rectangle(infoFrame.getUpperLeft(), borders.getMaxX(), 20,
                 new ColorSprite(infoFrame, Color.white));
-        Block playInfo = new Block(infoFrameFilled);
+        BaseBlock playInfo = new BaseBlock(infoFrameFilled);
         playInfo.addToGame(this);
 
 
-        List<Block> myBlocks = myLevel.blocks();
-        for (Block block : myBlocks) {
-            block.addHitListener(new BlockRemover(this, blockCounter));
-            block.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-            block.addHitListener(new BallRemover(this, ballCounter));
-            block.addToGame(this);
+        List<BaseBlock> myBlocks = myLevel.blocks();
+        SpriteCollection invadersCollection = new SpriteCollection();
+        for (BaseBlock baseBlock : myBlocks) {
+            baseBlock.addHitListener(new BlockRemover(this, blockCounter));
+            baseBlock.addHitListener(new ScoreTrackingListener(myScore.getScore()));
+            baseBlock.addHitListener(new BallRemover(this, ballCounter));
+            addCollidable(baseBlock);
+            invadersCollection.addSprite(baseBlock);
         }
+        invaders = new GroupMovement(invadersCollection);
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
 
         addSprite(lives);
@@ -143,7 +147,7 @@ public class GameLevel implements Animation {
     private void addDeathBorder(int y, int width, int height) {
         // Create the death border.
         Rectangle r = new Rectangle(0, y, width, height);
-        Block deathBorder = new Block(0, y, width, height,
+        BaseBlock deathBorder = new BaseBlock(0, y, width, height,
                 new ColorSprite(r, Color.black));
         deathBorder.addHitListener(new BallRemover(this, ballCounter));
         addCollidable(deathBorder);
@@ -196,6 +200,7 @@ public class GameLevel implements Animation {
         // this.running = false;
         this.sprites.drawAllOn(d);
         this.sprites.notifyAllTimePassed(dt);
+        this.invaders.notifyInvaders(dt);
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }

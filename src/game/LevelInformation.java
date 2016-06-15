@@ -1,8 +1,8 @@
 package game;
 
-import sprites.Block;
+import sprites.BaseBlock;
 import sprites.Sprite;
-import game.Velocity;
+
 import java.util.List;
 
 /**
@@ -60,7 +60,7 @@ public interface LevelInformation {
      *
      * @return a list of blocks of this level.
      */
-    List<Block> blocks();
+    List<BaseBlock> blocks();
 
     /**
      * numberOfBlocksToRemove method returns the number of blocks in this level.

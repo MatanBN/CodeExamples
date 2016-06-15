@@ -3,7 +3,7 @@ package environment;
 import biuoop.DrawSurface;
 import geometry.Rectangle;
 import geometry.Line;
-import sprites.Block;
+import sprites.BaseBlock;
 
 import java.util.ArrayList;
 
@@ -86,7 +86,7 @@ public class GameEnvironment {
      */
     public void drawOn(DrawSurface d) {
         for (Object o : collidables) {
-            ((Block) o).drawOn(d);
+            ((BaseBlock) o).drawOn(d);
         }
     }
 

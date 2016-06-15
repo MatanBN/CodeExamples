@@ -18,44 +18,47 @@ import java.util.List;
 
 
 /**
- * The Block is a Collidable and a Sprite object that can block moving objects.
+ * The BaseBlock is a Collidable and a Sprite object that can block moving objects.
  * The class has methods to draw the block, and a method hit which will change the velocity of the object that hits
  * the block.
  *
  * @author Matan Ben Noach Nir Ben Shalom
  * @version 1.0 9 April 2016
  */
-public class Block implements Collidable, Sprite, HitNotifier {
+public class BaseBlock implements Collidable, Sprite, HitNotifier {
     private geometry.Rectangle rectangle; // The rectangle shape of the block.
     private int hitsNumber; // The number of hits of the block.
     private int totalHits;
     private List<HitListener> hitListeners;
+    private int speed;
 
     /**
-     * Block creates a new rectangle block by a given rectangle.
+     * BaseBlock creates a new rectangle block by a given rectangle.
      *
      * @param r is a given rectangle.
      */
-    public Block(Rectangle r) {
+    public BaseBlock(Rectangle r) {
         this.rectangle = r;
         this.hitListeners = new ArrayList();
+        this.speed = 10;
     }
 
     /**
-     * Block creates a new rectangle block by a given rectangle.
+     * BaseBlock creates a new rectangle block by a given rectangle.
      *
      * @param r    is a given rectangle.
      * @param fill the fill of the block.
      */
-    public Block(Rectangle r, Sprite fill) {
+    public BaseBlock(Rectangle r, Sprite fill) {
         this.rectangle = r;
         this.rectangle.setFilling(fill);
         this.hitListeners = new ArrayList();
+        this.speed = 10;
     }
 
 
     /**
-     * Block creates a new rectangle block by it's left corner coordinates,
+     * BaseBlock creates a new rectangle block by it's left corner coordinates,
      * width and height.
      *
      * @param x          is the x coordinate of left corner.
@@ -64,9 +67,10 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * @param height     is the rectangle's height.
      * @param fill    the fillers of the block/rectangle.
      */
-    public Block(int x, int y, int width, int height, Sprite fill) {
+    public BaseBlock(int x, int y, int width, int height, Sprite fill) {
         this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
+        this.speed = 10;
     }
 
 
@@ -152,7 +156,8 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * @param dt specifies the amount of seconds passed since the last call.
      */
     public void timePassed(double dt) {
-
+        Point p = this.rectangle.getUpperLeft();
+        p.setX(p.getX() + speed);
     }
 
     /**
@@ -217,13 +222,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         return hitsNumber;
     }
 
-    /**
-     * setHitsNumber sets the block's number of hits.
-     *
-     * @param hits the adjusted number of hits.
-     */
-    public void setHitsNumber(int hits) {
-        totalHits = hits;
-        hitsNumber = hits;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }

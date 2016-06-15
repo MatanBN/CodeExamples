@@ -1,6 +1,6 @@
 package game;
 
-import sprites.Block;
+import sprites.BaseBlock;
 import sprites.ColorSprite;
 import sprites.ImageSprite;
 import sprites.Sprite;
@@ -96,22 +96,22 @@ public class Level implements LevelInformation {
      * @return a list of blocks of this level.
      */
     @Override
-    public List<Block> blocks() {
-        List<Block> myBlocks = new ArrayList<Block>();
+    public List<BaseBlock> blocks() {
+        List<BaseBlock> myBaseBlocks = new ArrayList<BaseBlock>();
         int currentX = 40;
         int currentY = 50;
         ImageParser ip = new ImageParser();
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 10; ++j) {
                 Rectangle r = new Rectangle(currentX, currentY, 40, 30);
-                Block block = new Block(r, new ImageSprite(r, ip.imageFromString("enemy.png")));
-                myBlocks.add(block);
+                BaseBlock baseBlock = new BaseBlock(r, new ImageSprite(r, ip.imageFromString("enemy.png")));
+                myBaseBlocks.add(baseBlock);
                 currentX += 50;
             }
             currentY += 40;
             currentX = 40;
         }
-        return myBlocks;
+        return myBaseBlocks;
     }
 
     /**

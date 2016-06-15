@@ -1,7 +1,7 @@
 package listeners;
 
 import sprites.Ball;
-import sprites.Block;
+import sprites.BaseBlock;
 
 /**
  * HitListener Objects are notified of hit events.
@@ -18,5 +18,5 @@ public interface HitListener {
      * @param beingHit is the block tat is being hit.
      * @param hitter   is the Ball that's doing the hitting.
      */
-    void hitEvent(Block beingHit, Ball hitter);
+    void hitEvent(BaseBlock beingHit, Ball hitter);
 }

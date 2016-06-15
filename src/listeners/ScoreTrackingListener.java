@@ -2,7 +2,7 @@ package listeners;
 
 import game.Counter;
 import sprites.Ball;
-import sprites.Block;
+import sprites.BaseBlock;
 
 /**
  * ScoreTrackingListener updates the counter when blocks are being hit and removed from the game.
@@ -29,7 +29,7 @@ public class ScoreTrackingListener implements HitListener {
      * @param beingHit is the block that is being hit.
      * @param hitter   is the Ball that's doing the hitting.
      */
-    public void hitEvent(Block beingHit, Ball hitter) {
+    public void hitEvent(BaseBlock beingHit, Ball hitter) {
         this.currentScore.increase(5);
         if (beingHit.getHitPoints() == 0) {
             this.currentScore.increase(10);
