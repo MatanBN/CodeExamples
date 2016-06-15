@@ -16,7 +16,11 @@ import listeners.ScoreTrackingListener;
 import sprites.*;
 
 import java.awt.Color;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+
+import static java.lang.Math.abs;
 
 /**
  * The GameLevel class contains a a SpriteCollection which will be all the sprites in
@@ -38,7 +42,7 @@ public class GameLevel implements Animation {
     private LevelInformation myLevel; // The level information of the game.
     private Paddle paddle; // The paddle of the game.
     private LiveIndicator liveIndicator; // The live indicator of the game.
-
+    private long startTime;
     /**
      * Constructor to create the GameLevel.
      *
@@ -125,6 +129,7 @@ public class GameLevel implements Animation {
         for (Block block : myBlocks) {
             block.addHitListener(new BlockRemover(this, blockCounter));
             block.addHitListener(new ScoreTrackingListener(myScore.getScore()));
+            block.addHitListener(new BallRemover(this, ballCounter));
             block.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
@@ -132,6 +137,7 @@ public class GameLevel implements Animation {
         addSprite(lives);
         addSprite(myScore);
         addSprite(new LevelIndicator(myLevel.levelName()));
+        this.startTime = System.currentTimeMillis();
     }
 
     private void addDeathBorder(int y, int width, int height) {
@@ -194,8 +200,12 @@ public class GameLevel implements Animation {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
         if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            Rectangle paddleRec = paddle.getCollisionRectangle();
-            createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10), 3, new Velocity(0, -500));
+            if(abs(System.currentTimeMillis() - startTime)>350) {
+                Rectangle paddleRec = paddle.getCollisionRectangle();
+                createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
+                        3, new Velocity(0, -500));
+                this.startTime= System.currentTimeMillis();
+            }
         }
         if (blockCounter.getValue() == 0) {
             this.running = false;
