@@ -13,15 +13,7 @@ import listeners.BallRemover;
 
 import listeners.BlockRemover;
 import listeners.ScoreTrackingListener;
-import sprites.LiveIndicator;
-import sprites.Paddle;
-import sprites.Sprite;
-import sprites.SpriteCollection;
-import sprites.ScoreIndicator;
-import sprites.Block;
-
-import sprites.LevelIndicator;
-import sprites.Ball;
+import sprites.*;
 
 import java.awt.Color;
 import java.util.List;
@@ -115,39 +107,25 @@ public class GameLevel implements Animation {
         // Create the paddle.
         Rectangle paddleRec = new Rectangle(360 - myLevel.paddleWidth() / 2, borders.getHeight() - 51,
                 myLevel.paddleWidth(), 10);
-        paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed(), Color.black,
+        paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed(),
                 new ColorSprite(paddleRec, Color.GREEN));
         paddle.addToGame(this);
-
-        // Create the death border.
-        Block deathBorder = new Block(0, borders.getMaxY(), borders.getMaxX(), 20, Color.white,
-                new ColorSprite(borders, Color.white));
-        deathBorder.addHitListener(new BallRemover(this, ballCounter));
-        addCollidable(deathBorder);
+        addDeathBorder(borders.getMaxY(), borders.getMaxX(), 20);
+        addDeathBorder(0, borders.getMaxX(), 20);
 
         // Create the score indicator
         Rectangle infoFrame = new Rectangle(0, 0, borders.getMaxX(), 20);
-        Rectangle infoFrameFilled = new Rectangle(infoFrame.getUpperLeft(), borders.getMaxX(), 20, Color.white,
+        Rectangle infoFrameFilled = new Rectangle(infoFrame.getUpperLeft(), borders.getMaxX(), 20,
                 new ColorSprite(infoFrame, Color.white));
         Block playInfo = new Block(infoFrameFilled);
         playInfo.addToGame(this);
 
-        // Create the top border.
-        createBorder(0, playInfo.getRectangle().getMaxY(), borders.getMaxX(), 20, Color.gray);
-
-        // Create the left border.
-        createBorder(0, playInfo.getRectangle().getMaxY() + 20, 20, borders.getMaxY(), Color.gray);
-
-        // Create the right border.
-        createBorder(borders.getMaxX() - 20, playInfo.getRectangle().getMaxY() + 20, 20, borders.getMaxY(), Color.gray);
 
         List<Block> myBlocks = myLevel.blocks();
         for (Block block : myBlocks) {
-                Block b = block.copy();
-                b.addHitListener(new BlockRemover(this, blockCounter));
-                b.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-                b.addHitListener(new Blockhanger());
-            b.addToGame(this);
+            block.addHitListener(new BlockRemover(this, blockCounter));
+            block.addHitListener(new ScoreTrackingListener(myScore.getScore()));
+            block.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
 
@@ -156,21 +134,15 @@ public class GameLevel implements Animation {
         addSprite(new LevelIndicator(myLevel.levelName()));
     }
 
-    /**
-     * createBorder method creates a border for the game.
-     *
-     * @param x      the start x coordinate.
-     * @param y      the start y coordinate.
-     * @param width  the width of the border.
-     * @param height the height of the border.
-     * @param c      the color of the border.
-     */
-    private void createBorder(int x, int y, int width, int height, Color c) {
-        Block block = new Block(x, y, width, height, Color.black,
-                new ColorSprite(new Rectangle(x, y, width, height), c));
-        block.setHitsNumber(0);
-        block.addToGame(this);
+    private void addDeathBorder(int y, int width, int height) {
+        // Create the death border.
+        Rectangle r = new Rectangle(0, y, width, height);
+        Block deathBorder = new Block(0, y, width, height,
+                new ColorSprite(r, Color.black));
+        deathBorder.addHitListener(new BallRemover(this, ballCounter));
+        addCollidable(deathBorder);
     }
+
 
     /**
      * createBall method creates a new ball to the game.
@@ -182,36 +154,12 @@ public class GameLevel implements Animation {
     public void createBall(Point p, int radius, Velocity v) {
         Ball ball = new Ball(p, radius, Color.WHITE, v, environment);
         ball.addToGame(this);
-        ballCounter.increase(1);
-    }
-
-    /**
-     * createBalls method creates balls according to the level's number of balls.
-     */
-    private void createBalls() {
-        // Create the balls.
-        List<Velocity> myVelocities = myLevel.initialBallVelocities();
-        int howMany = myLevel.numberOfBalls();
-        int xDistance = 10;
-        int yDistance = 10;
-        for (int i = 0; i < howMany; ++i) {
-            if (i == 0) {
-                createBall(new Point(375, 400), 3, myVelocities.get(i));
-            } else if (i % 2 == 0) {
-                createBall(new Point(375 + xDistance, 400 + yDistance), 3, myVelocities.get(i));
-                yDistance += 20;
-                xDistance += xDistance;
-            } else {
-                createBall(new Point(375 - xDistance, 400 + yDistance), 3, myVelocities.get(i));
-            }
-        }
     }
 
     /**
      * playOneTurn method resets the game to the start position.
      */
     public void playOneTurn() {
-        this.createBalls(); // create the balls
         paddle.relocatePaddle(360 - myLevel.paddleWidth() / 2);
         this.runner.run(new CountdownAnimation(2, 3, sprites)); // countdown before turn starts.
 
@@ -245,10 +193,11 @@ public class GameLevel implements Animation {
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
+        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
+            Rectangle paddleRec = paddle.getCollisionRectangle();
+            createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10), 3, new Velocity(0, -500));
+        }
         if (blockCounter.getValue() == 0) {
-            this.running = false;
-        } else if (ballCounter.getValue() == 0) {
-            liveIndicator.decrease();
             this.running = false;
         }
     }

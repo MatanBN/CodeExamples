@@ -41,7 +41,7 @@ public class Rectangle {
      *
      * @param width   the desired width of the rectangle.
      * @param height  the desired height of the rectangle.
-     * @param filler the filling of the rectangle.
+     * @param fill the filling of the rectangle.
      */
     public Rectangle(int width, int height, Sprite fill) {
         this.upperLeft = new Point(0, 0);

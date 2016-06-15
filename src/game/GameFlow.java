@@ -13,23 +13,17 @@ import animations.Task;
 import animations.Menu;
 import biuoop.DialogManager;
 
+import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
-import gamelevels.LevelInformation;
 import geometry.Rectangle;
-import leveldevelopment.LevelSpecificationReader;
 import sprites.LiveIndicator;
 import sprites.ScoreIndicator;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The GameFlow class controls the different levels of the game.
@@ -43,7 +37,6 @@ public class GameFlow {
     private int lives;
     private ScoreIndicator score;
     private HighScoresTable scoresTable;
-    private List<LevelInformation> levels;
 
 
     /**
@@ -73,6 +66,9 @@ public class GameFlow {
         Task<Void> playGame = new Task<Void>() {
             @Override
             public Void run() {
+                DrawSurface d = ar.getGui().getDrawSurface();
+                List<LevelInformation> levels = new ArrayList<LevelInformation>();
+                levels.add(new Level(new Rectangle(0, 0, d.getWidth(), d.getHeight())));
                 runLevels(levels);
                 return null;
             }
@@ -99,7 +95,7 @@ public class GameFlow {
 
         // Adding the tasks to the tasks list.
         menu.addSelection("h", "High scores", hiScores);
-        menu.addSubMenu("s", "Play", playGame);
+        menu.addSelection("s", "Play", playGame);
         menu.addSelection("q", "Quit", quitGame);
 
         while (true) {
@@ -107,86 +103,6 @@ public class GameFlow {
             // wait for user selection
             Task<Void> task = menu.getStatus();
             task.run();
-        }
-    }
-
-    /**
-     * LevelSet class is a private class for a level set.
-     */
-    private class LevelSet {
-        private String key; // The key to press to choose the level set.
-        private String name; // The name of the level set.
-        private String levelPath; // The file of the levels for the level set.
-        private Task<Void> setTask; // The task of the levelSet.
-
-        /**
-         * Constructor for the level set.
-         *
-         * @param key  the key to press to choose the level set.
-         * @param name The name of the level set.
-         */
-        public LevelSet(String key, String name) {
-            this.key = key;
-            this.name = name;
-        }
-
-        /**
-         * getKey returns the key to choose the level set.
-         *
-         * @return the key to choose the level set.
-         */
-        public String getKey() {
-            return key;
-        }
-
-        /**
-         * getName returns the name of the level set.
-         *
-         * @return the name of the level set.
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * getLevelPath returns the file of the levels for the level set.
-         *
-         * @return The file of the levels for the level set.
-         */
-        public String getLevelPath() {
-            return levelPath;
-        }
-
-        /**
-         * setLevelPath sets the path for the file of the levels for the level set.
-         *
-         * @param theLevelPath the file of the levels for the level set.
-         */
-        public void setLevelPath(String theLevelPath) {
-            this.levelPath = theLevelPath;
-        }
-
-        /**
-         * getLevelTask gets the set of levels of the level set.
-         *
-         * @return the set of levels of the level set.
-         */
-        public Task<Void> getSetTask() {
-            return setTask;
-        }
-
-        /**
-         * setSetTask sets a list of level for the level set.
-         */
-        public void setSetTask() {
-            setTask = new Task<Void>() {
-                @Override
-                public Void run() {
-                    levels = getListOfLevels(getLevelPath());
-                    runLevels(levels);
-                    return null;
-                }
-            };
         }
     }
 

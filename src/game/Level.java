@@ -1,12 +1,13 @@
-package gamelevels;
+package game;
 
-import game.LevelInformation;
 import sprites.Block;
+import sprites.ColorSprite;
 import sprites.Sprite;
 
-import game.Velocity;
-
 import java.awt.Color;
+
+import geometry.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +18,23 @@ import java.util.List;
  * @version 1.0 22 May 2016
  */
 public class Level implements LevelInformation {
+    private Rectangle r;
+
+    /**
+     * Level constructor constructs a new level with r as the game frame.
+     * @param r the game frame.
+     */
+    public Level(Rectangle r) {
+        this.r = r;
+    }
+
     /**
      * numberOfBalls method returns the number of balls of the level.
      *
      * @return the number of balls.
      */
     public int numberOfBalls() {
-        return 1;
+        return 0;
     }
 
     /**
@@ -34,7 +45,6 @@ public class Level implements LevelInformation {
     @Override
     public List<Velocity> initialBallVelocities() {
         List<Velocity> myVels = new ArrayList<Velocity>();
-        myVels.add(new Velocity(0, -2));
         return myVels;
     }
 
@@ -45,7 +55,7 @@ public class Level implements LevelInformation {
      */
     @Override
     public int paddleSpeed() {
-        return 5;
+        return 550;
     }
 
     /**
@@ -76,7 +86,7 @@ public class Level implements LevelInformation {
     @Override
     public Sprite getBackground() {
 
-        return new Block(,Color.black);
+        return new ColorSprite(r, Color.black);
     }
 
     /**
@@ -86,7 +96,8 @@ public class Level implements LevelInformation {
      */
     @Override
     public List<Block> blocks() {
-        Block block = new Block(375, 195, 10, 10, Color.red);
+        Rectangle blockRec = new Rectangle(375, 195, 10, 10);
+        Block block = new Block(375, 195, 10, 10, new ColorSprite(blockRec, Color.red));
         List<Block> myBlocks = new ArrayList<Block>();
         myBlocks.add(block);
         return myBlocks;
