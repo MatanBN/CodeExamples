@@ -98,8 +98,8 @@ public class Level implements LevelInformation {
     @Override
     public List<Block> blocks() {
         List<Block> myBlocks = new ArrayList<Block>();
-        int currentX = 30;
-        int currentY = 30;
+        int currentX = 40;
+        int currentY = 50;
         ImageParser ip = new ImageParser();
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 10; ++j) {
@@ -108,8 +108,8 @@ public class Level implements LevelInformation {
                 myBlocks.add(block);
                 currentX += 50;
             }
-            currentY += 30;
-            currentX = 30;
+            currentY += 40;
+            currentX = 40;
         }
         return myBlocks;
     }
