@@ -156,8 +156,6 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * @param dt specifies the amount of seconds passed since the last call.
      */
     public void timePassed(double dt) {
-        Point p = this.rectangle.getUpperLeft();
-        p.setX(p.getX() + speed);
     }
 
     /**

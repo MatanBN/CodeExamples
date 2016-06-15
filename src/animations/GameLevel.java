@@ -127,15 +127,12 @@ public class GameLevel implements Animation {
 
 
         List<BaseBlock> myBlocks = myLevel.blocks();
-        SpriteCollection invadersCollection = new SpriteCollection();
         for (BaseBlock baseBlock : myBlocks) {
             baseBlock.addHitListener(new BlockRemover(this, blockCounter));
             baseBlock.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             baseBlock.addHitListener(new BallRemover(this, ballCounter));
-            addCollidable(baseBlock);
-            invadersCollection.addSprite(baseBlock);
+            baseBlock.addToGame(this);
         }
-        invaders = new GroupMovement(invadersCollection);
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
 
         addSprite(lives);
@@ -200,7 +197,6 @@ public class GameLevel implements Animation {
         // this.running = false;
         this.sprites.drawAllOn(d);
         this.sprites.notifyAllTimePassed(dt);
-        this.invaders.notifyInvaders(dt);
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
