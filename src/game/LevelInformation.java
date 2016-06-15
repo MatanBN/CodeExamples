@@ -1,6 +1,7 @@
 package game;
 
 import sprites.BaseBlock;
+import sprites.Invaders;
 import sprites.Sprite;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public interface LevelInformation {
      *
      * @return a list of blocks of this level.
      */
-    List<BaseBlock> blocks();
+    List<Invaders> blocks();
 
     /**
      * numberOfBlocksToRemove method returns the number of blocks in this level.

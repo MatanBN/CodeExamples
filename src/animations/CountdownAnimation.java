@@ -2,6 +2,7 @@ package animations;
 
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
+import game.GroupMovement;
 import sprites.SpriteCollection;
 
 
@@ -17,6 +18,7 @@ public class CountdownAnimation implements Animation {
     private int counter; // The counter that counts backwards
     private int countFrom; // The number to from backwards
     private SpriteCollection screen; // The list of the sprites of the game
+    private GroupMovement invaders;
     private boolean running; // The member that says whether the game runs or not
 
     /**
@@ -26,12 +28,13 @@ public class CountdownAnimation implements Animation {
      * @param countFrom    is the number to from backwards.
      * @param gameScreen   is the list of the sprites of the game.
      */
-    public CountdownAnimation(double numOfSeconds, int countFrom, SpriteCollection gameScreen) {
+    public CountdownAnimation(double numOfSeconds, int countFrom, SpriteCollection gameScreen, GroupMovement invaders) {
         this.numOfSeconds = numOfSeconds;
         counter = countFrom;
         this.countFrom = countFrom;
         screen = gameScreen;
         running = false;
+        this.invaders = invaders;
     }
 
     /**
@@ -44,6 +47,7 @@ public class CountdownAnimation implements Animation {
         String s;
         Sleeper sleeper = new Sleeper();
         screen.drawAllOn(d);
+        invaders.drawAllOn(d);
         if (counter == 0) {
             s = "GO";
         } else {

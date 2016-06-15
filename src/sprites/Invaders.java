@@ -1,5 +1,6 @@
 package sprites;
 
+import animations.GameLevel;
 import geometry.Point;
 import geometry.Rectangle;
 

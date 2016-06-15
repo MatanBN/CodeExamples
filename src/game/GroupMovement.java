@@ -9,14 +9,10 @@ import java.util.ArrayList;
 /**
  * Created by Matan on 6/15/2016.
  */
-public class GroupMovement extends SpriteCollection {
-    public GroupMovement() {
-        super();
-    }
+public class GroupMovement {
 
     public void verticalMovement() {
-        ArrayList<Sprite> invaders = super.getSprites();
-        for (Sprite s : invaders) {
+        for (Invaders s : invaders) {
             Invaders inv = (Invaders) s;
             inv.goDown();
             inv.setSpeed(inv.getSpeed() + Math.signum(inv.getSpeed()) * 10);

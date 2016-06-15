@@ -58,6 +58,7 @@ public class GameLevel implements Animation {
         myLevel = level;
         this.keyboard = key;
         this.runner = runner;
+        this.invaders = new GroupMovement();
     }
 
     /**
@@ -125,12 +126,13 @@ public class GameLevel implements Animation {
         playInfo.addToGame(this);
 
 
-        List<BaseBlock> myBlocks = myLevel.blocks();
-        for (BaseBlock baseBlock : myBlocks) {
-            baseBlock.addHitListener(new BlockRemover(this, blockCounter));
-            baseBlock.addHitListener(new ScoreTrackingListener(myScore.getScore()));
-            baseBlock.addHitListener(new BallRemover(this, new Counter()));
-            baseBlock.addToGame(this);
+        List<Invaders> invaders = myLevel.blocks();
+        for (Invaders invader : invaders) {
+            invader.addHitListener(new BlockRemover(this, blockCounter));
+            invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
+            invader.addHitListener(new BallRemover(this, new Counter()));
+            GroupMovement
+            invader.addToGame(this);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
 
@@ -151,6 +153,10 @@ public class GameLevel implements Animation {
         addSprite(myScore);
         addSprite(new LevelIndicator(myLevel.levelName()));
         this.startTime = System.currentTimeMillis();
+    }
+
+    public void addInvader(Invaders inv) {
+        invaders.addSprite(inv);
     }
 
     private void addDeathBorder(int y, int width, int height) {
@@ -180,7 +186,7 @@ public class GameLevel implements Animation {
      */
     public void playOneTurn() {
         paddle.relocatePaddle(360 - myLevel.paddleWidth() / 2);
-        this.runner.run(new CountdownAnimation(2, 3, sprites)); // countdown before turn starts.
+        this.runner.run(new CountdownAnimation(2, 3, sprites, invaders)); // countdown before turn starts.
 
         this.running = true;
         // use our runner to run the current animation -- which is one turn of
@@ -208,18 +214,21 @@ public class GameLevel implements Animation {
         // the `return` or `break` statements should be replaced with
         // this.running = false;
         this.sprites.drawAllOn(d);
+        this.invaders.drawAllOn(d);
         this.sprites.notifyAllTimePassed(dt);
+        this.invaders.notifyAllTimePassed(dt);
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
         if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            if(abs(System.currentTimeMillis() - startTime)>350) {
+            if (abs(System.currentTimeMillis() - startTime) > 350) {
                 Rectangle paddleRec = paddle.getCollisionRectangle();
                 createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
                         3, new Velocity(0, -500));
                 this.startTime= System.currentTimeMillis();
             }
         }
+
         if (blockCounter.getValue() == 0) {
             this.running = false;
         }
