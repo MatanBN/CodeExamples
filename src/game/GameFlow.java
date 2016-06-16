@@ -60,7 +60,7 @@ public class GameFlow {
      * and runs the task that the user chooses.
      */
     public void chooseTask() {
-        Menu<Task<Void>> menu = new MenuAnimation<Task<Void>>(ks, ar, "please choose:");
+        Menu<Task<Void>> menu = new MenuAnimation<Task<Void>>(ks, ar, "Space Invaders");
 
         //Anonymous classes that defines each task's run method.
         Task<Void> playGame = new Task<Void>() {

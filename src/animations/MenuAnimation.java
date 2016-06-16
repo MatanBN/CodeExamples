@@ -44,13 +44,19 @@ public class MenuAnimation<T> implements Menu {
      */
     @Override
     public void doOneFrame(DrawSurface d, double dt) {
-        d.setColor(Color.blue);
+        d.setColor(Color.gray);
         d.fillRectangle(0, 0, d.getWidth() - 20, d.getHeight());
+        d.setColor(Color.black);
+        d.drawText(73, 69, message, 50);
         d.setColor(Color.YELLOW);
-        d.drawText(200, 100, message, 32);
+        d.drawText(70, 70, message, 50);
         for (int i = 1; i <= menuSelections.size(); i++) {
-            d.drawText(200, 100 + (i * 50), menuSelections.get(i - 1).getMessage() + "- "
-                    + menuSelections.get(i - 1).getKey(), 20);
+            d.setColor(Color.black);
+            d.drawText(102, 99 + (i * 50), menuSelections.get(i - 1).getMessage() + "- "
+                    + menuSelections.get(i - 1).getKey(), 30);
+            d.setColor(Color.green);
+            d.drawText(100, 100 + (i * 50), menuSelections.get(i - 1).getMessage() + "- "
+                    + menuSelections.get(i - 1).getKey(), 30);
         }
         for (int i = 0; i < menuSelections.size(); i++) {
             if (ks.isPressed(menuSelections.get(i).getKey())) {

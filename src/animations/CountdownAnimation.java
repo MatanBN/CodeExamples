@@ -5,6 +5,8 @@ import biuoop.Sleeper;
 import game.GroupMovement;
 import sprites.SpriteCollection;
 
+import java.awt.*;
+
 
 /**
  * CountDownAnimation will display the given gameScreen, for numOfSeconds seconds,
@@ -53,7 +55,8 @@ public class CountdownAnimation implements Animation {
         if (counter == -1) {
             running = true;
         } else {
-            d.drawText(d.getWidth() / 2, 30, s, 32);
+            d.setColor(Color.white);
+            d.drawText(d.getWidth() / 2, 450, s, 32);
             --counter;
 
         }
