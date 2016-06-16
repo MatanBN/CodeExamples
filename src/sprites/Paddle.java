@@ -62,11 +62,11 @@ public class Paddle extends BaseBlock {
      */
     public void moveLeft(double newSpeed) {
         Rectangle rectangle = super.getRectangle();
-        if (rectangle.getX() - newSpeed >= borders.getX() + 20) {
+        if (rectangle.getX() - newSpeed >= borders.getX() + 10) {
             rectangle.getUpperLeft().setX(rectangle.getX() - newSpeed);
             alignRegions();
         } else {
-            rectangle.getUpperLeft().setX(borders.getX() + 20);
+            rectangle.getUpperLeft().setX(borders.getX() + 10);
         }
     }
 
@@ -79,11 +79,11 @@ public class Paddle extends BaseBlock {
      */
     public void moveRight(double newSpeed) {
         Rectangle rectangle = super.getRectangle();
-        if (rectangle.getX() + rectangle.getWidth() + newSpeed <= borders.getWidth() - 20) {
+        if (rectangle.getX() + rectangle.getWidth() + newSpeed <= borders.getWidth() - 10) {
             rectangle.getUpperLeft().setX(rectangle.getX() + newSpeed);
             alignRegions();
         } else {
-            rectangle.getUpperLeft().setX(borders.getWidth() - rectangle.getWidth() - 20);
+            rectangle.getUpperLeft().setX(borders.getWidth() - rectangle.getWidth() - 10);
         }
     }
 

@@ -133,13 +133,13 @@ public class GameLevel implements Animation {
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
         int shieldPixelWidth = 2;
-        int shieldPixelHeight = 2;
+        int shieldPixelHeight = 4;
 
         //Create shields
         for (int i = 0; i < 3; i++) {
             int shieldStartX = i * 200;
 
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 75; k++) {
                     Rectangle r = new Rectangle(100 + k * shieldPixelWidth + shieldStartX, 500 + j * shieldPixelHeight,
                             shieldPixelWidth, shieldPixelHeight, Color.cyan);
