@@ -133,7 +133,7 @@ public class GameLevel implements Animation {
 
         sprites.addSprite(gm);
         for (Invader invader : invaders) {
-            invader.addHitListener(new BlockRemover(this, blockCounter));
+            invader.addHitListener(new AlienRemover(this, blockCounter,gm));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             invader.addHitListener(new BallRemover(this));
             invader.addToGame(this);
