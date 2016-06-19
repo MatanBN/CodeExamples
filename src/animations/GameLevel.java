@@ -45,7 +45,7 @@ public class GameLevel implements Animation {
     private LiveIndicator liveIndicator; // The live indicator of the game.
     private long startTime;
     private long secondTime;
-    private GroupMovement gm;
+    private int speed;
 
     /**
      * Constructor to create the GameLevel.
@@ -54,14 +54,14 @@ public class GameLevel implements Animation {
      * @param key    the keyboard sensor of the game.
      * @param runner the animation runner of the game.
      */
-    public GameLevel(LevelInformation level, KeyboardSensor key, AnimationRunner runner, GroupMovement gm) {
+    public GameLevel(LevelInformation level, KeyboardSensor key, AnimationRunner runner, int speed) {
         sprites = new SpriteCollection();
         environment = new GameEnvironment();
         blockCounter = new Counter();
         myLevel = level;
         this.keyboard = key;
         this.runner = runner;
-        this.gm = gm;
+        this.speed = speed;
     }
 
     /**
@@ -126,6 +126,13 @@ public class GameLevel implements Animation {
         BaseBlock playInfo = new BaseBlock(infoFrameFilled);
         playInfo.addToGame(this);
 
+
+
+        GameEnvironment gameEnv = new GameEnvironment();
+
+        List<Invader> invaders = myLevel.blocks();
+        GroupMovement gm = new GroupMovement(speed, (ArrayList) invaders, gameEnv);
+
         BaseBlock leftBlock = new BaseBlock(20, playInfo.getRectangle().getMaxY(), 20, borders.getMaxY(),
                 Color.black);
 
@@ -138,22 +145,15 @@ public class GameLevel implements Animation {
 
         addCollidable(rightBlock);
 
-        GameEnvironment gameEnv = new GameEnvironment();
         gameEnv.addCollidable(leftBlock);
         gameEnv.addCollidable(rightBlock);
-
-
-        List<Invader> invaders = myLevel.blocks();
-        this.gm = new GroupMovement(speed, invaders);
+        sprites.addSprite(gm);
         for (Invader invader : invaders) {
             invader.addHitListener(new BlockRemover(this, blockCounter));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             invader.addHitListener(new BallRemover(this));
-            invader.setGm(gm);
-            invader.setGameEnv(gameEnv);
             invader.addToGame(this);
         }
-        gm.setInvaders((ArrayList) invaders);
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
         int shieldPixelWidth = 2;
         int shieldPixelHeight = 4;

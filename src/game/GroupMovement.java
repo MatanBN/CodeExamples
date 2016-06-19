@@ -2,6 +2,11 @@ package game;
 
 
 import biuoop.DrawSurface;
+import environment.CollisionInfo;
+import environment.GameEnvironment;
+import geometry.Line;
+import geometry.Point;
+import geometry.Rectangle;
 import sprites.Invader;
 import sprites.Sprite;
 
@@ -15,9 +20,10 @@ public class GroupMovement implements Sprite {
     private ArrayList<ArrayList<Invader>> invaders;
     private double mostLeftX;
     private double mostRightX;
+    public GameEnvironment gameEnv;
 
 
-    public GroupMovement(double speed, ArrayList<Invader> group) {
+    public GroupMovement(double speed, ArrayList<Invader> group, GameEnvironment gameEnv) {
         this.speed = speed;
         invaders = new ArrayList<>();
         for (int i=0; i<group.size();i++){
@@ -27,6 +33,7 @@ public class GroupMovement implements Sprite {
         }
         mostLeftX=invaders.get(0).get(0).getX();
         mostRightX=invaders.get(9).get(0).getX();
+        this.gameEnv = gameEnv;
     }
 
     public double getSpeed() {
@@ -56,9 +63,24 @@ public class GroupMovement implements Sprite {
 
     @Override
     public void timePassed(double dt) {
+        // Get the trajectory.
+        Line traj;
+        if (speed > 0) {
+            traj = new Line(new Point(mostRightX, 100),
+                    new Point(mostRightX + speed * dt, 100));
+        } else {
+            traj = new Line(new Point(mostLeftX, 100),
+                    new Point(mostLeftX + speed * dt, 100));
+        }
+        // Calculate the collision point if such exists.
+        CollisionInfo myInfo = gameEnv.getClosestCollision(traj);
+        if (myInfo.collisionPoint() != null) {
+            myInfo.collisionObject().hit(this, myInfo.collisionPoint(), new Velocity(speed * dt, 0));
+        }
         for (ArrayList<Invader> column : invaders) {
             for (Invader inv : column) {
-                inv.timePassed(dt);
+                Point p = inv.getRectangle().getUpperLeft();
+                p.setX(p.getX() + speed * dt);
             }
         }
     }

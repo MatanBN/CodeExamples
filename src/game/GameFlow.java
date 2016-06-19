@@ -114,9 +114,9 @@ public class GameFlow {
     public void runLevels(List<LevelInformation> theLevels) {
         LiveIndicator liveIndicator = new LiveIndicator(lives);
         score = new ScoreIndicator();
-        double speed = 100;
+        int speed = 100;
         for (LevelInformation levelInfo : theLevels) {
-            GameLevel level = new GameLevel(levelInfo, this.ks, this.ar, new GroupMovement(speed));
+            GameLevel level = new GameLevel(levelInfo, this.ks, this.ar, speed);
             level.initialize(liveIndicator, score);
             while (level.getBlockCounter().getValue() != 0 && liveIndicator.getValue() != 0) {
                 level.playOneTurn();

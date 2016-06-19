@@ -17,7 +17,6 @@ import java.awt.Image;
  */
 public class Invader extends BaseBlock {
     private Image invaderImage;
-    private GameEnvironment gameEnv; // The game environment of the ball.
 
     public Invader(Rectangle r, Image img) {
         super(r);
@@ -31,23 +30,7 @@ public class Invader extends BaseBlock {
 
     @Override
     public void timePassed(double dt) {
-        Rectangle invaderRec = super.getRectangle();
-        Point p = invaderRec.getUpperLeft();
-        // Get the trajectory.
-        Line traj;
-        if (gm.getSpeed() > 0) {
-            traj = new Line(new Point(invaderRec.getMaxX(), invaderRec.getY()),
-                    new Point(invaderRec.getMaxX() + gm.getSpeed() * dt, invaderRec.getY()));
-        } else {
-            traj = new Line(new Point(invaderRec.getX(), invaderRec.getY()),
-                    new Point(invaderRec.getX() + gm.getSpeed() * dt, invaderRec.getY()));
-        }
-        // Calculate the collision point if such exists.
-        CollisionInfo myInfo = gameEnv.getClosestCollision(traj);
-        if (myInfo.collisionPoint() != null) {
-            myInfo.collisionObject().hit(this, myInfo.collisionPoint(), new Velocity(gm.getSpeed() * dt, 0));
-        }
-        p.setX(p.getX() + gm.getSpeed() * dt);
+
     }
 
     public void goDown() {
@@ -60,15 +43,7 @@ public class Invader extends BaseBlock {
         d.drawImage(this.getRectangle().getX(), this.getRectangle().getY(), invaderImage);
     }
 
-    public void setGm(GroupMovement gm) {
-        this.gm = gm;
-    }
-
     public double getX (){
         return this.getRectangle().getX();
-    }
-
-    public void setGameEnv(GameEnvironment gameEnv) {
-        this.gameEnv = gameEnv;
     }
 }
