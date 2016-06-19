@@ -20,7 +20,6 @@ public class GroupMovement implements Sprite {
     private ArrayList<ArrayList<Invader>> invaders;
     private double mostLeftX;
     private double mostRightX;
-    public GameEnvironment gameEnv;
 
 
     public GroupMovement(double speed, ArrayList<Invader> group, GameEnvironment gameEnv) {
@@ -37,7 +36,6 @@ public class GroupMovement implements Sprite {
         }
         mostLeftX=invaders.get(0).get(0).getX();
         mostRightX=invaders.get(9).get(0).getX();
-        this.gameEnv = gameEnv;
     }
 
     public double getSpeed() {
@@ -67,20 +65,12 @@ public class GroupMovement implements Sprite {
 
     @Override
     public void timePassed(double dt) {
-        // Get the trajectory.
-        Line traj;
-        if (speed > 0) {
-            traj = new Line(new Point(mostRightX, 100),
-                    new Point(mostRightX + speed * dt, 100));
-        } else {
-            traj = new Line(new Point(mostLeftX, 100),
-                    new Point(mostLeftX + speed * dt, 100));
+        if (mostLeftX + speed * dt <= 20 || mostRightX + speed * dt >= 760) {
+            speed *= -1.1;
+
         }
-        // Calculate the collision point if such exists.
-        CollisionInfo myInfo = gameEnv.getClosestCollision(traj);
-        if (myInfo.collisionPoint() != null) {
-            myInfo.collisionObject().hit(this, myInfo.collisionPoint(), new Velocity(speed * dt, 0));
-        }
+        mostRightX += speed * dt;
+        mostLeftX += speed * dt;
         for (ArrayList<Invader> column : invaders) {
             for (Invader inv : column) {
                 Point p = inv.getRectangle().getUpperLeft();

@@ -13,14 +13,12 @@ import geometry.Point;
 import listeners.BallRemover;
 
 import listeners.BlockRemover;
-import listeners.MovementListener;
 import listeners.ScoreTrackingListener;
 import sprites.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static java.lang.Math.abs;
 
@@ -133,20 +131,6 @@ public class GameLevel implements Animation {
         List<Invader> invaders = myLevel.blocks();
         GroupMovement gm = new GroupMovement(speed, (ArrayList) invaders, gameEnv);
 
-        BaseBlock leftBlock = new BaseBlock(20, playInfo.getRectangle().getMaxY(), 20, borders.getMaxY(),
-                Color.black);
-
-        leftBlock.addHitListener(new MovementListener(gm));
-        addCollidable(leftBlock);
-
-        BaseBlock rightBlock = new BaseBlock(borders.getMaxX() - 20, playInfo.getRectangle().getMaxY() + 20, 20,
-                borders.getMaxY(), Color.black);
-        rightBlock.addHitListener(new MovementListener(gm));
-
-        addCollidable(rightBlock);
-
-        gameEnv.addCollidable(leftBlock);
-        gameEnv.addCollidable(rightBlock);
         sprites.addSprite(gm);
         for (Invader invader : invaders) {
             invader.addHitListener(new BlockRemover(this, blockCounter));
