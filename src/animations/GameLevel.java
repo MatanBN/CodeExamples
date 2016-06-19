@@ -10,6 +10,7 @@ import game.Velocity;
 import game.LevelInformation;
 import geometry.Rectangle;
 import geometry.Point;
+import listeners.AlienRemover;
 import listeners.BallRemover;
 
 import listeners.BlockRemover;
