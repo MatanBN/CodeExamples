@@ -13,6 +13,7 @@ import geometry.Point;
 import listeners.BallRemover;
 
 import listeners.BlockRemover;
+import listeners.RemoveLifeListener;
 import listeners.ScoreTrackingListener;
 import sprites.*;
 
@@ -44,6 +45,7 @@ public class GameLevel implements Animation {
     private long startTime;
     private long secondTime;
     private int speed;
+    private GroupMovement gm;
 
     /**
      * Constructor to create the GameLevel.
@@ -126,10 +128,10 @@ public class GameLevel implements Animation {
 
 
 
-        GameEnvironment gameEnv = new GameEnvironment();
 
         List<Invader> invaders = myLevel.blocks();
-        GroupMovement gm = new GroupMovement(speed, (ArrayList) invaders, gameEnv);
+        gm = new GroupMovement(speed, (ArrayList) invaders, new RemoveLifeListener(this, liveIndicator));
+
 
         sprites.addSprite(gm);
         for (Invader invader : invaders) {
@@ -192,6 +194,7 @@ public class GameLevel implements Animation {
      */
     public void playOneTurn() {
         paddle.relocatePaddle(360 - myLevel.paddleWidth() / 2);
+        gm.relocateInvaders();
         this.runner.run(new CountdownAnimation(2, 3, sprites)); // countdown before turn starts.
 
         this.running = true;
@@ -268,5 +271,7 @@ public class GameLevel implements Animation {
         return blockCounter;
     }
 
-
+    public void setRunning(boolean status) {
+        this.running = status;
+    }
 }

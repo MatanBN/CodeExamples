@@ -90,7 +90,7 @@ public class Level implements LevelInformation {
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 10; ++j) {
                 Rectangle r = new Rectangle(currentX, currentY, 40, 30);
-                Invader invader = new Invader(r, ip.imageFromString("enemy.png"));
+                Invader invader = new Invader(r, ip.imageFromString("enemy.png"), currentY);
                 levelInvaders.add(invader);
                 currentX += 50;
             }
