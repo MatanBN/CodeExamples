@@ -248,6 +248,7 @@ public class GameLevel implements Animation {
                 this.secondTime= System.currentTimeMillis();
             }
         }
+
         /*if (abs(System.currentTimeMillis() - startTime) > 500){
             Random rand = new Random();
             int chosenColumn = rand.nextInt(10);
