@@ -13,10 +13,12 @@ import geometry.Point;
 import listeners.BallRemover;
 
 import listeners.BlockRemover;
+import listeners.MovementListener;
 import listeners.ScoreTrackingListener;
 import sprites.*;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -122,6 +124,22 @@ public class GameLevel implements Animation {
         BaseBlock playInfo = new BaseBlock(infoFrameFilled);
         playInfo.addToGame(this);
 
+        BaseBlock leftBlock = new BaseBlock(20, playInfo.getRectangle().getMaxY() + 20, 20, borders.getMaxY(),
+                Color.black);
+
+        leftBlock.addHitListener(new MovementListener(gm));
+        addCollidable(leftBlock);
+
+        BaseBlock rightBlock = new BaseBlock(borders.getMaxX() - 20, playInfo.getRectangle().getMaxY() + 20, 20,
+                borders.getMaxY(), Color.black);
+        rightBlock.addHitListener(new MovementListener(gm));
+
+        addCollidable(rightBlock);
+
+        GameEnvironment gameEnv = new GameEnvironment();
+        gameEnv.addCollidable(leftBlock);
+        gameEnv.addCollidable(rightBlock);
+
 
         List<Invader> invaders = myLevel.blocks();
         for (Invader invader : invaders) {
@@ -129,8 +147,10 @@ public class GameLevel implements Animation {
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             invader.addHitListener(new BallRemover(this));
             invader.setGm(gm);
+            invader.setGameEnv(gameEnv);
             invader.addToGame(this);
         }
+        gm.setInvaders((ArrayList) invaders);
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
         int shieldPixelWidth = 2;
         int shieldPixelHeight = 4;

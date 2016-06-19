@@ -1,7 +1,11 @@
 package sprites;
 
 import biuoop.DrawSurface;
+import environment.CollisionInfo;
+import environment.GameEnvironment;
 import game.GroupMovement;
+import game.Velocity;
+import geometry.Line;
 import geometry.Point;
 import geometry.Rectangle;
 
@@ -14,6 +18,7 @@ import java.awt.Image;
 public class Invader extends BaseBlock {
     private GroupMovement gm;
     private Image invaderImage;
+    private GameEnvironment gameEnv; // The game environment of the ball.
 
     public Invader(Rectangle r, Image img) {
         super(r);
@@ -27,8 +32,16 @@ public class Invader extends BaseBlock {
 
     @Override
     public void timePassed(double dt) {
-        Rectangle r = super.getRectangle();
-        Point p = r.getUpperLeft();
+        Rectangle invaderRec = super.getRectangle();
+        Point p = invaderRec.getUpperLeft();
+        // Get the trajectory.
+        Line traj = new Line(new Point(invaderRec.getMaxX(), invaderRec.getY()),
+                new Point(invaderRec.getMaxX() + gm.getSpeed() * dt, invaderRec.getY()));
+        // Calculate the collision point if such exists.
+        CollisionInfo myInfo = gameEnv.getClosestCollision(traj);
+        if (myInfo.collisionPoint() != null) {
+            myInfo.collisionObject().hit(this, myInfo.collisionPoint(), new Velocity(gm.getSpeed() * dt, 0));
+        }
         p.setX(p.getX() + gm.getSpeed() * dt);
     }
 
@@ -36,7 +49,6 @@ public class Invader extends BaseBlock {
         Rectangle r = super.getRectangle();
         Point p = r.getUpperLeft();
         p.setY(p.getY() + 10);
-        gm.setSpeed((gm.getSpeed() + (int) Math.signum(100.0)) * -1);
     }
 
     public void drawOn(DrawSurface d) {
@@ -45,5 +57,9 @@ public class Invader extends BaseBlock {
 
     public void setGm(GroupMovement gm) {
         this.gm = gm;
+    }
+
+    public void setGameEnv(GameEnvironment gameEnv) {
+        this.gameEnv = gameEnv;
     }
 }

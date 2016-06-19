@@ -4,6 +4,7 @@ import animations.GameLevel;
 import game.Counter;
 import sprites.Ball;
 import sprites.BaseBlock;
+import sprites.Sprite;
 
 /**
  * BlockRemover is in charge of removing blocks from the gameLevel, as well as keeping count
@@ -38,9 +39,11 @@ public class BlockRemover implements HitListener {
      * @param beingHit is the specific block that is being hit.
      * @param hitter   is the ball that hit the block.
      */
-    public void hitEvent(BaseBlock beingHit, Ball hitter) {
+    public void hitEvent(BaseBlock beingHit, Sprite hitter) {
             beingHit.removeFromGame(gameLevel);
             beingHit.removeHitListener(this);
             remainingBlocks.decrease(1);
     }
+
+
 }

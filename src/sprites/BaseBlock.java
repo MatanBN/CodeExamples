@@ -85,7 +85,7 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * @param currentVelocity is the current velocity of the object that will collide with the block.
      * @return the new velocity after the hit.
      */
-    public void hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
+    public void hit(Sprite hitter, Point collisionPoint, Velocity currentVelocity) {
         this.notifyHit(hitter);
     }
 
@@ -165,7 +165,7 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      *
      * @param hitter the ball the hitted the block.
      */
-    private void notifyHit(Ball hitter) {
+    private void notifyHit(Sprite hitter) {
         // Make a copy of the hitListeners before iterating over them.
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
         // Notify all listeners about a hit event:

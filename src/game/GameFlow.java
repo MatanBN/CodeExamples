@@ -114,7 +114,7 @@ public class GameFlow {
     public void runLevels(List<LevelInformation> theLevels) {
         LiveIndicator liveIndicator = new LiveIndicator(lives);
         score = new ScoreIndicator();
-        int speed = 300;
+        double speed = 100;
         for (LevelInformation levelInfo : theLevels) {
             GameLevel level = new GameLevel(levelInfo, this.ks, this.ar, new GroupMovement(speed));
             level.initialize(liveIndicator, score);

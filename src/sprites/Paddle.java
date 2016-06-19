@@ -1,16 +1,11 @@
 package sprites;
 
-import animations.GameLevel;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
-import environment.Collidable;
-import game.Velocity;
 import geometry.Line;
 import geometry.Rectangle;
 import geometry.Point;
-import listeners.HitListener;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 /**

@@ -4,6 +4,7 @@ import animations.GameLevel;
 import game.Counter;
 import sprites.Ball;
 import sprites.BaseBlock;
+import sprites.Sprite;
 
 /**
  * BallRemover is in charge of removing balls from the gameLevel, as well as keeping count
@@ -36,7 +37,8 @@ public class BallRemover implements HitListener {
      * @param deathRegion is the block on the bottom of the screen and in charge of removing the balls.
      * @param beingHit    is the ball that hit the block.
      */
-    public void hitEvent(BaseBlock deathRegion, Ball beingHit) {
-        beingHit.removeFromGame(gameLevel);
+    public void hitEvent(BaseBlock deathRegion, Sprite beingHit) {
+        Ball ball = (Ball) beingHit;
+        ball.removeFromGame(gameLevel);
     }
 }
