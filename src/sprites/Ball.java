@@ -203,7 +203,7 @@ public class Ball implements Sprite {
      */
     public void addToGame(GameLevel g) {
         g.addSprite(this);
-
+        g.addBall(this);
     }
 
     /**
@@ -215,5 +215,6 @@ public class Ball implements Sprite {
      */
     public void removeFromGame(GameLevel gameLevel) {
         gameLevel.removeSprite(this);
+        gameLevel.removeBall(this);
     }
 }

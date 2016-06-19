@@ -1,11 +1,14 @@
 package listeners;
 
 import animations.GameLevel;
+import environment.GameEnvironment;
 import game.Velocity;
 import geometry.Point;
 import sprites.Ball;
 import sprites.BaseBlock;
 import sprites.Sprite;
+
+import java.awt.*;
 
 
 /**
@@ -35,7 +38,7 @@ public class BallAdder implements HitListener {
      * @param hitter   is the ball that hit the block.
      */
     public void hitEvent(BaseBlock beingHit, Sprite hitter) {
-        gameLevel.createBall(new Point(50, 90), 2, new Velocity(240, -180));
+        gameLevel.createBall(new Point(50, 90), 2, new Velocity(240, -180), Color.red, new GameEnvironment());
         beingHit.removeHitListener(this);
     }
 }

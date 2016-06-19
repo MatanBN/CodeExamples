@@ -46,6 +46,8 @@ public class GameLevel implements Animation {
     private long secondTime;
     private int speed;
     private GroupMovement gm;
+    private ArrayList<Ball> gameBalls;
+
 
     /**
      * Constructor to create the GameLevel.
@@ -62,6 +64,8 @@ public class GameLevel implements Animation {
         this.keyboard = key;
         this.runner = runner;
         this.speed = speed;
+        gameBalls = new ArrayList<Ball>();
+
     }
 
     /**
@@ -116,7 +120,11 @@ public class GameLevel implements Animation {
         Rectangle paddleRec = new Rectangle(360 - myLevel.paddleWidth() / 2, borders.getHeight() - 51,
                 myLevel.paddleWidth(), 10, Color.green);
         paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed());
+        paddle.addHitListener(new RemoveLifeListener(this,liveIndicator));
+        paddle.addHitListener(new BallRemover(this));
         paddle.addToGame(this);
+        GameEnvironment paddleEnv = new GameEnvironment();
+        paddleEnv.addCollidable(paddle);
         addDeathBorder(borders.getMaxY(), borders.getMaxX(), 20);
         addDeathBorder(0, borders.getMaxX(), 20);
 
@@ -130,7 +138,8 @@ public class GameLevel implements Animation {
 
 
         List<Invader> invaders = myLevel.blocks();
-        gm = new GroupMovement(speed, (ArrayList) invaders, new RemoveLifeListener(this, liveIndicator));
+        gm = new GroupMovement(this, speed, (ArrayList) invaders, new RemoveLifeListener(this, liveIndicator),
+                paddleEnv);
 
 
         sprites.addSprite(gm);
@@ -156,6 +165,8 @@ public class GameLevel implements Animation {
                     BaseBlock shield = new BaseBlock(r);
                     shield.addHitListener(new BlockRemover(this, new Counter()));
                     shield.addHitListener(new BallRemover(this));
+                    paddleEnv.addCollidable(shield);
+
                     shield.addToGame(this);
                 }
             }
@@ -184,8 +195,8 @@ public class GameLevel implements Animation {
      * @param radius the radius of the ball.
      * @param v      the velocity of the ball.
      */
-    public void createBall(Point p, int radius, Velocity v) {
-        Ball ball = new Ball(p, radius, Color.WHITE, v, environment);
+    public void createBall(Point p, int radius, Velocity v, Color color, GameEnvironment gameEnv) {
+        Ball ball = new Ball(p, radius, color, v, gameEnv);
         ball.addToGame(this);
     }
 
@@ -195,7 +206,12 @@ public class GameLevel implements Animation {
     public void playOneTurn() {
         paddle.relocatePaddle(360 - myLevel.paddleWidth() / 2);
         gm.relocateInvaders();
+        ArrayList<Ball> ballsCopy = new ArrayList(gameBalls);
+        for (Ball b : ballsCopy) {
+            b.removeFromGame(this);
+        }
         this.runner.run(new CountdownAnimation(2, 3, sprites)); // countdown before turn starts.
+
 
         this.running = true;
         // use our runner to run the current animation -- which is one turn of
@@ -232,29 +248,12 @@ public class GameLevel implements Animation {
             if (abs(System.currentTimeMillis() - secondTime) > 350) {
                 Rectangle paddleRec = paddle.getCollisionRectangle();
                 createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
-                        3, new Velocity(0, -500));
+                        3, new Velocity(0, -500), Color.white, environment);
                 this.secondTime= System.currentTimeMillis();
             }
         }
 
-        /*if (abs(System.currentTimeMillis() - startTime) > 500){
-            Random rand = new Random();
-            int chosenColumn = rand.nextInt(10);
-            List <Invader> inv = myLevel.blocks();
-            int checkY = inv.get(chosenColumn).getRectangle().getY();
-            int checkX = inv.get(chosenColumn).getRectangle().getX();
-            int shooterIndex = 0;
-            int i = inv.size()-1;
-            while (!(inv.get(i).getRectangle().getX()== checkX && inv.get(i).getRectangle().getY()>=checkY)){
-                i--;
-            }
-            shooterIndex=i;
-            Rectangle shooter = inv.get(shooterIndex).getCollisionRectangle();
-            createBall(new Point(shooter.getX() + 15, shooter.getY()+40), 3, new Velocity(0, 500));
-            this.startTime= System.currentTimeMillis();
 
-
-        }*/
 
         if (blockCounter.getValue() == 0) {
             this.running = false;
@@ -273,5 +272,13 @@ public class GameLevel implements Animation {
 
     public void setRunning(boolean status) {
         this.running = status;
+    }
+
+    public void removeBall(Ball b) {
+        gameBalls.remove(b);
+    }
+
+    public void addBall(Ball b) {
+        gameBalls.add(b);
     }
 }

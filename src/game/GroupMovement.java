@@ -1,6 +1,7 @@
 package game;
 
 
+import animations.GameLevel;
 import biuoop.DrawSurface;
 import environment.GameEnvironment;
 import geometry.Point;
@@ -11,11 +12,15 @@ import sprites.Sprite;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by Matan on 6/15/2016.
  */
 public class GroupMovement implements Sprite {
+    private GameLevel level;
     private double intialSpeed;
     private double speed;
     private ArrayList<ArrayList<Invader>> invaders;
@@ -23,9 +28,12 @@ public class GroupMovement implements Sprite {
     private double mostRightX;
     private double maxY;
     private HitListener hit;
+    private long startTime;
+    private GameEnvironment paddleEnv;
 
-
-    public GroupMovement(double speed, ArrayList<Invader> group, HitListener hit) {
+    public GroupMovement(GameLevel level, double speed, ArrayList<Invader> group, HitListener hit,
+                         GameEnvironment paddleEnv) {
+        this.level = level;
         this.intialSpeed = speed;
         this.speed = speed;
         invaders = new ArrayList<>();
@@ -38,9 +46,10 @@ public class GroupMovement implements Sprite {
             }
         }
         mostLeftX=invaders.get(0).get(0).getX();
-        mostRightX=invaders.get(9).get(0).getX();
+        mostRightX=invaders.get(9).get(0).getRectangle().getMaxX();
         maxY = invaders.get(0).get(4).getY();
         this.hit = hit;
+        this.paddleEnv = paddleEnv;
     }
 
 
@@ -80,6 +89,7 @@ public class GroupMovement implements Sprite {
                 p.setX(p.getX() + speed * dt);
             }
         }
+        shoot();
     }
 
     public void remove (Invader inv){
@@ -88,13 +98,13 @@ public class GroupMovement implements Sprite {
                 column.remove(inv);
                 if (invaders.get(0).isEmpty()) {
                     int i = 1;
-                    while (i < 10 && invaders.get(i).isEmpty()) {
+                    while (i < invaders.size() && invaders.get(i).isEmpty()) {
                         ++i;
                     }
                     mostLeftX = invaders.get(i).get(0).getX();
                 }
-                if (invaders.get(9).isEmpty()) {
-                    int i = 8;
+                if (invaders.get(invaders.size() - 1).isEmpty()) {
+                    int i = invaders.size() - 2;
                     while (i >= 0 && invaders.get(i).isEmpty()) {
                         --i;
                     }
@@ -120,13 +130,13 @@ public class GroupMovement implements Sprite {
         for (ArrayList<Invader> column : invaders) {
             for (Invader inv : column) {
                 if (inv.getX() > mostRightX) {
-                    mostRightX = inv.getX();
+                    mostRightX = inv.getRectangle().getMaxX();
                 }
             }
         }
         getMaxY();
         speed = intialSpeed;
-
+        startTime = System.currentTimeMillis();
     }
 
     public void getMaxY() {
@@ -139,5 +149,25 @@ public class GroupMovement implements Sprite {
             }
         }
         this.maxY = max;
+    }
+
+    public void shoot() {
+        if (abs(System.currentTimeMillis() - startTime) > 500){
+            Random rand = new Random();
+            int chosenColumn;
+            do {
+                chosenColumn = rand.nextInt(10);
+            } while(invaders.get(chosenColumn).isEmpty());
+            ArrayList<Invader> inv = invaders.get(chosenColumn);
+            Invader shooter = inv.get(inv.size() - 1);
+            double checkY = shooter.getY();
+            double checkX = shooter.getX();
+
+            level.createBall(new Point(shooter.getX() + 15, shooter.getY()+40), 6, new Velocity(0, 500), Color.red,
+                    paddleEnv);
+            this.startTime= System.currentTimeMillis();
+
+
+        }
     }
 }
