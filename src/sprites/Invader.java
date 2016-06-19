@@ -16,7 +16,6 @@ import java.awt.Image;
  * Created by Matan on 6/15/2016.
  */
 public class Invader extends BaseBlock {
-    private GroupMovement gm;
     private Image invaderImage;
     private GameEnvironment gameEnv; // The game environment of the ball.
 
@@ -35,8 +34,14 @@ public class Invader extends BaseBlock {
         Rectangle invaderRec = super.getRectangle();
         Point p = invaderRec.getUpperLeft();
         // Get the trajectory.
-        Line traj = new Line(new Point(invaderRec.getMaxX(), invaderRec.getY()),
-                new Point(invaderRec.getMaxX() + gm.getSpeed() * dt, invaderRec.getY()));
+        Line traj;
+        if (gm.getSpeed() > 0) {
+            traj = new Line(new Point(invaderRec.getMaxX(), invaderRec.getY()),
+                    new Point(invaderRec.getMaxX() + gm.getSpeed() * dt, invaderRec.getY()));
+        } else {
+            traj = new Line(new Point(invaderRec.getX(), invaderRec.getY()),
+                    new Point(invaderRec.getX() + gm.getSpeed() * dt, invaderRec.getY()));
+        }
         // Calculate the collision point if such exists.
         CollisionInfo myInfo = gameEnv.getClosestCollision(traj);
         if (myInfo.collisionPoint() != null) {

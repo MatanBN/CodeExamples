@@ -124,7 +124,7 @@ public class GameLevel implements Animation {
         BaseBlock playInfo = new BaseBlock(infoFrameFilled);
         playInfo.addToGame(this);
 
-        BaseBlock leftBlock = new BaseBlock(20, playInfo.getRectangle().getMaxY() + 20, 20, borders.getMaxY(),
+        BaseBlock leftBlock = new BaseBlock(20, playInfo.getRectangle().getMaxY(), 20, borders.getMaxY(),
                 Color.black);
 
         leftBlock.addHitListener(new MovementListener(gm));
