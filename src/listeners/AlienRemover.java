@@ -14,7 +14,6 @@ public class AlienRemover implements HitListener {
     private GroupMovement groupMovement;
     private GameLevel gameLevel;
     private Counter remainingBlocks;
-    private String harta;
 
     public AlienRemover(GameLevel gl, Counter removedBlocks, GroupMovement gm) {
         gameLevel = gl;
