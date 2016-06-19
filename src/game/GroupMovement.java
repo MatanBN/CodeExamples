@@ -26,9 +26,13 @@ public class GroupMovement implements Sprite {
     public GroupMovement(double speed, ArrayList<Invader> group, GameEnvironment gameEnv) {
         this.speed = speed;
         invaders = new ArrayList<>();
-        for (int i=0; i<group.size();i++){
+        for (int k = 0; k < 10; ++k) {
+            invaders.add(new ArrayList<Invader>());
+        }
+        for (int i=0; i<5;i++){
             for (int j=0; j<10; j++){
-                 invaders.get(j).add(group.get(j+i*10));
+                 invaders.get(j).add(group.get(j+(i*10)));
+
             }
         }
         mostLeftX=invaders.get(0).get(0).getX();

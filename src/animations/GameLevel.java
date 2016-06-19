@@ -240,7 +240,15 @@ public class GameLevel implements Animation {
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
-        if (abs(System.currentTimeMillis() - startTime) > 500){
+        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
+            if (abs(System.currentTimeMillis() - secondTime) > 350) {
+                Rectangle paddleRec = paddle.getCollisionRectangle();
+                createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
+                        3, new Velocity(0, -500));
+                this.secondTime= System.currentTimeMillis();
+            }
+        }
+        /*if (abs(System.currentTimeMillis() - startTime) > 500){
             Random rand = new Random();
             int chosenColumn = rand.nextInt(10);
             List <Invader> inv = myLevel.blocks();
@@ -255,16 +263,9 @@ public class GameLevel implements Animation {
             Rectangle shooter = inv.get(shooterIndex).getCollisionRectangle();
             createBall(new Point(shooter.getX() + 15, shooter.getY()+40), 3, new Velocity(0, 500));
             this.startTime= System.currentTimeMillis();
-            if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-                if (abs(System.currentTimeMillis() - secondTime) > 350) {
-                    Rectangle paddleRec = paddle.getCollisionRectangle();
-                    createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
-                            3, new Velocity(0, -500));
-                    this.secondTime= System.currentTimeMillis();
-                }
-            }
 
-        }
+
+        }*/
 
         if (blockCounter.getValue() == 0) {
             this.running = false;
