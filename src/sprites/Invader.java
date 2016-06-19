@@ -1,5 +1,6 @@
 package sprites;
 
+import animations.GameLevel;
 import biuoop.DrawSurface;
 import environment.CollisionInfo;
 import environment.GameEnvironment;
@@ -17,15 +18,18 @@ import java.awt.Image;
  */
 public class Invader extends BaseBlock {
     private Image invaderImage;
+    GroupMovement gm;
 
-    public Invader(Rectangle r, Image img) {
+    public Invader(Rectangle r, Image img, GroupMovement gm) {
         super(r);
         this.invaderImage = img;
+        this.gm = gm;
     }
 
-    public Invader(int x, int y, int width, int height, Image img) {
+    public Invader(int x, int y, int width, int height, Image img, GroupMovement gm) {
         super(new Rectangle(x, y, width, height));
         this.invaderImage = img;
+        this.gm = gm;
     }
 
     @Override
@@ -45,5 +49,10 @@ public class Invader extends BaseBlock {
 
     public double getX (){
         return this.getRectangle().getX();
+    }
+
+    public void removeFromGame(GameLevel gameLevel) {
+        gameLevel.removeCollidable(this);
+        gm.remove(this);
     }
 }
