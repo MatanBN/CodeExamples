@@ -64,6 +64,10 @@ public class Invader extends BaseBlock {
         this.gm = gm;
     }
 
+    public double getX (){
+        return this.getRectangle().getX();
+    }
+
     public void setGameEnv(GameEnvironment gameEnv) {
         this.gameEnv = gameEnv;
     }

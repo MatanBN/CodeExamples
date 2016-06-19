@@ -20,6 +20,7 @@ import sprites.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.abs;
 
@@ -43,6 +44,7 @@ public class GameLevel implements Animation {
     private Paddle paddle; // The paddle of the game.
     private LiveIndicator liveIndicator; // The live indicator of the game.
     private long startTime;
+    private long secondTime;
     private GroupMovement gm;
 
     /**
@@ -142,6 +144,7 @@ public class GameLevel implements Animation {
 
 
         List<Invader> invaders = myLevel.blocks();
+        this.gm = new GroupMovement(speed, invaders);
         for (Invader invader : invaders) {
             invader.addHitListener(new BlockRemover(this, blockCounter));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
@@ -175,6 +178,7 @@ public class GameLevel implements Animation {
         addSprite(myScore);
         addSprite(new LevelIndicator(myLevel.levelName()));
         this.startTime = System.currentTimeMillis();
+        this.secondTime = System.currentTimeMillis();
     }
 
     private void addDeathBorder(int y, int width, int height) {
@@ -209,6 +213,7 @@ public class GameLevel implements Animation {
         // use our runner to run the current animation -- which is one turn of
         // the game.
         this.runner.run(this);
+
     }
 
     /**
@@ -235,13 +240,30 @@ public class GameLevel implements Animation {
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
-        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            if (abs(System.currentTimeMillis() - startTime) > 350) {
-                Rectangle paddleRec = paddle.getCollisionRectangle();
-                createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
-                        3, new Velocity(0, -500));
-                this.startTime= System.currentTimeMillis();
+        if (abs(System.currentTimeMillis() - startTime) > 500){
+            Random rand = new Random();
+            int chosenColumn = rand.nextInt(10);
+            List <Invader> inv = myLevel.blocks();
+            int checkY = inv.get(chosenColumn).getRectangle().getY();
+            int checkX = inv.get(chosenColumn).getRectangle().getX();
+            int shooterIndex = 0;
+            int i = inv.size()-1;
+            while (!(inv.get(i).getRectangle().getX()== checkX && inv.get(i).getRectangle().getY()>=checkY)){
+                i--;
             }
+            shooterIndex=i;
+            Rectangle shooter = inv.get(shooterIndex).getCollisionRectangle();
+            createBall(new Point(shooter.getX() + 15, shooter.getY()+40), 3, new Velocity(0, 500));
+            this.startTime= System.currentTimeMillis();
+            if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
+                if (abs(System.currentTimeMillis() - secondTime) > 350) {
+                    Rectangle paddleRec = paddle.getCollisionRectangle();
+                    createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
+                            3, new Velocity(0, -500));
+                    this.secondTime= System.currentTimeMillis();
+                }
+            }
+
         }
 
         if (blockCounter.getValue() == 0) {
