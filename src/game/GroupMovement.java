@@ -66,6 +66,7 @@ public class GroupMovement implements Sprite {
     @Override
     public void timePassed(double dt) {
         if (mostLeftX + speed * dt <= 20 || mostRightX + speed * dt >= 760) {
+            goDown();
             speed *= -1.1;
 
         }

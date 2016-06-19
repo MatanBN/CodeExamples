@@ -18,18 +18,16 @@ import java.awt.Image;
  */
 public class Invader extends BaseBlock {
     private Image invaderImage;
-    GroupMovement gm;
+    private GroupMovement gm;
 
-    public Invader(Rectangle r, Image img, GroupMovement gm) {
+    public Invader(Rectangle r, Image img) {
         super(r);
         this.invaderImage = img;
-        this.gm = gm;
     }
 
-    public Invader(int x, int y, int width, int height, Image img, GroupMovement gm) {
+    public Invader(int x, int y, int width, int height, Image img) {
         super(new Rectangle(x, y, width, height));
         this.invaderImage = img;
-        this.gm = gm;
     }
 
     @Override
@@ -54,5 +52,9 @@ public class Invader extends BaseBlock {
     public void removeFromGame(GameLevel gameLevel) {
         gameLevel.removeCollidable(this);
         gm.remove(this);
+    }
+
+    public void setGm(GroupMovement gm) {
+        this.gm = gm;
     }
 }

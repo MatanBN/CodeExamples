@@ -10,7 +10,6 @@ import game.Velocity;
 import game.LevelInformation;
 import geometry.Rectangle;
 import geometry.Point;
-import listeners.AlienRemover;
 import listeners.BallRemover;
 
 import listeners.BlockRemover;
@@ -134,10 +133,11 @@ public class GameLevel implements Animation {
 
         sprites.addSprite(gm);
         for (Invader invader : invaders) {
-            invader.addHitListener(new AlienRemover(this, blockCounter,gm));
+            invader.addHitListener(new BlockRemover(this, blockCounter));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             invader.addHitListener(new BallRemover(this));
-            invader.addToGame(this);
+            invader.setGm(gm);
+            addCollidable(invader);
         }
         blockCounter.increase(myLevel.numberOfBlocksToRemove());
         int shieldPixelWidth = 2;
