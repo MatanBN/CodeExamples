@@ -4,7 +4,6 @@ import animations.GameLevel;
 import game.Counter;
 import sprites.Ball;
 import sprites.BaseBlock;
-import sprites.Sprite;
 
 /**
  * BlockRemover is in charge of removing blocks from the gameLevel, as well as keeping count

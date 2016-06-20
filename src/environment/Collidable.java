@@ -4,8 +4,6 @@ import game.Velocity;
 import geometry.Rectangle;
 import geometry.Point;
 import sprites.Ball;
-import sprites.Sprite;
-
 /**
  * The Collidable holds 2 statements of any Collidable object.
  *
@@ -27,7 +25,6 @@ public interface Collidable {
      * @param hitter          is the specific ball that is about to hit the block.
      * @param collisionPoint  is the collision point of an object with the block.
      * @param currentVelocity is the current velocity of the object that will collide with the block.
-     * @return the new velocity after the hit.
      */
     void hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 }

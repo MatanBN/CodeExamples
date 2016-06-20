@@ -2,7 +2,6 @@ package listeners;
 
 import sprites.Ball;
 import sprites.BaseBlock;
-import sprites.Sprite;
 
 /**
  * HitListener Objects are notified of hit events.

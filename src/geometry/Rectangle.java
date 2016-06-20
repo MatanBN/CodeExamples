@@ -1,7 +1,6 @@
 package geometry;
 
 import biuoop.DrawSurface;
-import sprites.Sprite;
 
 import java.awt.Color;
 import java.util.ArrayList;

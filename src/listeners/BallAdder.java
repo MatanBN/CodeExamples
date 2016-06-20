@@ -1,14 +1,12 @@
 package listeners;
 
 import animations.GameLevel;
-import environment.GameEnvironment;
 import game.Velocity;
 import geometry.Point;
 import sprites.Ball;
 import sprites.BaseBlock;
-import sprites.Sprite;
 
-import java.awt.*;
+import java.awt.Color;
 
 
 /**

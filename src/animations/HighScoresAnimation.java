@@ -5,7 +5,7 @@ import biuoop.KeyboardSensor;
 import game.HighScoresTable;
 import game.ScoreInfo;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * HighScoresAnimation will display the scores in the high-scores table,

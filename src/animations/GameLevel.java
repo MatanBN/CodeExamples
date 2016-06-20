@@ -10,13 +10,26 @@ import game.Velocity;
 import game.LevelInformation;
 import geometry.Rectangle;
 import geometry.Point;
-import listeners.*;
+import listeners.AlienRemover;
+import listeners.BallRemover;
+import listeners.RemoveLifeListener;
+import listeners.ScoreTrackingListener;
+import listeners.BlockRemover;
+import sprites.Sprite;
+import sprites.SpriteCollection;
+import sprites.Paddle;
+import sprites.LiveIndicator;
+import sprites.Ball;
+import sprites.ScoreIndicator;
+import sprites.LevelIndicator;
+import sprites.BaseBlock;
+import sprites.Invader;
 
-import sprites.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static java.lang.Math.abs;
 

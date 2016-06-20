@@ -74,6 +74,11 @@ public class SpriteCollection {
         return sprites.get(index);
     }
 
+    /**
+     * getSprites returns a list of the sprites of the game.
+     *
+     * @return a list of the sprites of the game.
+     */
     public ArrayList<Sprite> getSprites() {
         return sprites;
     }

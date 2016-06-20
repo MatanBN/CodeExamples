@@ -2,10 +2,10 @@ package animations;
 
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
-import game.GroupMovement;
+
 import sprites.SpriteCollection;
 
-import java.awt.*;
+import java.awt.Color;
 
 
 /**

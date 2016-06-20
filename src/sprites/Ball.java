@@ -222,10 +222,10 @@ public class Ball implements Sprite {
     /**
      * setAlien sets a ball to be an alien bullet.
      *
-     * @param alien boolean that says true if its an alien's bullet.
+     * @param invader boolean that says true if its an alien's bullet.
      */
-    public void setAlien(boolean alien) {
-        this.alien = alien;
+    public void setAlien(boolean invader) {
+        this.alien = invader;
     }
 
     /**

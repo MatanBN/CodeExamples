@@ -1,10 +1,9 @@
 package game;
 
-import sprites.*;
 
-import java.awt.Color;
 
 import geometry.Rectangle;
+import sprites.Invader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,11 @@ public class Level implements LevelInformation {
     /**
      * Level constructor constructs a new level with r as the game frame.
      *
-     * @param r the game frame.
+     * @param rec the game frame.
+     * @param levelNum the number of the level.
      */
-    public Level(Rectangle r, int levelNum) {
-        this.r = r;
+    public Level(Rectangle rec, int levelNum) {
+        this.r = rec;
         this.levelNum = levelNum;
     }
 
@@ -92,8 +92,8 @@ public class Level implements LevelInformation {
         ImageParser ip = new ImageParser();
         for (int i = 0; i < 5; ++i) {
             for (int j = 0; j < 10; ++j) {
-                Rectangle r = new Rectangle(currentX, currentY, 40, 30);
-                Invader invader = new Invader(r, ip.imageFromString("enemy.png"), currentY);
+                Rectangle rec = new Rectangle(currentX, currentY, 40, 30);
+                Invader invader = new Invader(rec, ip.imageFromString("enemy.png"), currentY);
                 levelInvaders.add(invader);
                 currentX += 50;
             }

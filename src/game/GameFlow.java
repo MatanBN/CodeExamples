@@ -16,15 +16,12 @@ import biuoop.DialogManager;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import geometry.Rectangle;
-import org.w3c.dom.css.Rect;
 import sprites.LiveIndicator;
 import sprites.ScoreIndicator;
 
 import java.io.File;
 import java.io.IOException;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The GameFlow class controls the different levels of the game.

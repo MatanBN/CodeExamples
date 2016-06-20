@@ -4,7 +4,6 @@ import animations.GameLevel;
 import sprites.Ball;
 import sprites.BaseBlock;
 import sprites.LiveIndicator;
-import sprites.Sprite;
 
 /**
  * removeLifeListener is in charge of removing lives from the gameLevel, and tells the game to start the level again.

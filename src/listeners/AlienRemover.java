@@ -2,11 +2,9 @@ package listeners;
 
 import animations.GameLevel;
 import game.Counter;
-import game.GroupMovement;
 import sprites.Ball;
 import sprites.BaseBlock;
-import sprites.Invader;
-import sprites.Sprite;
+
 
 /**
  * AlienRemover is in charge of removing aliens from the gameLevel, as well as keeping count

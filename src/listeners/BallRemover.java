@@ -1,10 +1,8 @@
 package listeners;
 
 import animations.GameLevel;
-import game.Counter;
 import sprites.Ball;
 import sprites.BaseBlock;
-import sprites.Sprite;
 
 /**
  * BallRemover is in charge of removing balls from the gameLevel, as well as keeping count

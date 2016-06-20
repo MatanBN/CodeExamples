@@ -1,7 +1,6 @@
 package game;
 
 import sprites.Invader;
-import sprites.Sprite;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import sprites.BaseBlock;
 import sprites.Invader;
 import sprites.Sprite;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 

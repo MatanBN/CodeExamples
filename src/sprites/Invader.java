@@ -2,15 +2,9 @@ package sprites;
 
 import animations.GameLevel;
 import biuoop.DrawSurface;
-import environment.CollisionInfo;
-import environment.GameEnvironment;
 import game.GroupMovement;
-import game.Velocity;
-import geometry.Line;
 import geometry.Point;
 import geometry.Rectangle;
-
-import java.awt.Color;
 import java.awt.Image;
 
 /**
@@ -113,10 +107,10 @@ public class Invader extends BaseBlock {
     /**
      * setGm sets the GroupMovement of the game.
      *
-     * @param gm is the GroupMovement of the game.
+     * @param gameLevel is the GroupMovement of the game.
      */
-    public void setGm(GroupMovement gm) {
-        this.gm = gm;
+    public void setGm(GroupMovement gameLevel) {
+        this.gm = gameLevel;
     }
 
     /**
