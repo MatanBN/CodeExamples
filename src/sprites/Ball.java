@@ -219,10 +219,20 @@ public class Ball implements Sprite {
         gameLevel.removeBall(this);
     }
 
+    /**
+     * setAlien sets a ball to be an alien bullet.
+     *
+     * @param alien boolean that says true if its an alien's bullet.
+     */
     public void setAlien(boolean alien) {
         this.alien = alien;
     }
 
+    /**
+     * isAlien returns true if the ball is an alien's bullet and false otherwise.
+     *
+     * @return true if the ball is an alien's bullet and false otherwise.
+     */
     public boolean isAlien() {
         return alien;
     }

@@ -43,17 +43,16 @@ public class BaseBlock implements Collidable, Sprite, HitNotifier {
      * BaseBlock creates a new rectangle block by it's left corner coordinates,
      * width and height.
      *
-     * @param x          is the x coordinate of left corner.
-     * @param y          is the y coordinate of left corner.
-     * @param width      is the rectangle's width.
-     * @param height     is the rectangle's height.
-     * @param fill    the fillers of the block/rectangle.
+     * @param x      is the x coordinate of left corner.
+     * @param y      is the y coordinate of left corner.
+     * @param width  is the rectangle's width.
+     * @param height is the rectangle's height.
+     * @param fill   the fillers of the block/rectangle.
      */
     public BaseBlock(int x, int y, int width, int height, Color fill) {
         this.rectangle = new Rectangle(x, y, width, height, fill);
         this.hitListeners = new ArrayList();
     }
-
 
 
     /**

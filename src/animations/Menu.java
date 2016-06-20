@@ -3,6 +3,7 @@ package animations;
 
 /**
  * Menu holds 2 statements of any menu Object.
+ *
  * @param <T> generic object that the menu has.
  * @author Matan Ben Noach Nir Ben Shalom
  * @version 1.0 9 April 2016

@@ -46,8 +46,8 @@ public class HighScoresAnimation implements Animation {
         d.fillRectangle(0, 0, d.getWidth() - 20, d.getHeight());
         d.setColor(Color.black);
         d.drawText(73, 70, "High Scores", 50);
-        d.drawLine(80,149,680,149);
-        d.drawLine(80,156,680,156);
+        d.drawLine(80, 149, 680, 149);
+        d.drawLine(80, 156, 680, 156);
         d.drawText(81, 139, "Player Name", 25);
         d.drawText(481, 139, "Score", 25);
         d.setColor(Color.YELLOW);
@@ -55,16 +55,16 @@ public class HighScoresAnimation implements Animation {
         d.setColor(Color.green);
         d.drawText(80, 140, "Player Name", 25);
         d.drawText(480, 140, "Score", 25);
-        d.fillRectangle(80,150,600,6);
+        d.fillRectangle(80, 150, 600, 6);
         d.setColor(Color.cyan);
-        d.drawText(230,500, "Press space to continue", 30);
+        d.drawText(230, 500, "Press space to continue", 30);
         d.setColor(Color.black);
-        d.drawText(231,502, "Press space to continue", 30);
+        d.drawText(231, 502, "Press space to continue", 30);
         String playerScore;
         d.setColor(Color.orange);
         for (int i = 0; i < scoresTable.currentSize(); ++i) {
             ScoreInfo score = scoresTable.getScore(i);
-            d.drawText(85, 180 + (i * 30), score.getName() , 20);
+            d.drawText(85, 180 + (i * 30), score.getName(), 20);
             playerScore = Integer.toString(score.getScore());
             d.drawText(485, 180 + (i * 30), playerScore, 20);
         }

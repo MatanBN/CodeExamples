@@ -21,7 +21,7 @@ public class BallRemover implements HitListener {
     /**
      * The constructor gets the gamelevel and a counter of the removed balls.
      *
-     * @param gameLevel    is the current gamelevel of the game.
+     * @param gameLevel is the current gamelevel of the game.
      */
     public BallRemover(GameLevel gameLevel) {
         this.gameLevel = gameLevel;

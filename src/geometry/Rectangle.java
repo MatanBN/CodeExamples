@@ -39,9 +39,9 @@ public class Rectangle {
      * point at (0,0) and initialize the width and height according to the user
      * parameters.
      *
-     * @param width   the desired width of the rectangle.
-     * @param height  the desired height of the rectangle.
-     * @param fill the filling of the rectangle.
+     * @param width  the desired width of the rectangle.
+     * @param height the desired height of the rectangle.
+     * @param fill   the filling of the rectangle.
      */
     public Rectangle(int width, int height, Color fill) {
         this.upperLeft = new Point(0, 0);
@@ -73,7 +73,7 @@ public class Rectangle {
      * @param y      the y coordinate to start the rectangle from.
      * @param width  the desired width of the rectangle.
      * @param height the desired height of the rectangle.
-     * @param fill  the filling of the rectangle.
+     * @param fill   the filling of the rectangle.
      */
     public Rectangle(int x, int y, int width, int height, Color fill) {
         this.upperLeft = new Point(x, y);

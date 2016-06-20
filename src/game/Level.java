@@ -21,6 +21,7 @@ public class Level implements LevelInformation {
 
     /**
      * Level constructor constructs a new level with r as the game frame.
+     *
      * @param r the game frame.
      */
     public Level(Rectangle r, int levelNum) {

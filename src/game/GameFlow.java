@@ -106,7 +106,6 @@ public class GameFlow {
 
     /**
      * runLevels method runs a given list of levels.
-     *
      */
     public void runLevels() {
         LiveIndicator liveIndicator = new LiveIndicator(lives);
@@ -144,7 +143,6 @@ public class GameFlow {
         }
         this.chooseTask();
     }
-
 
 
 }

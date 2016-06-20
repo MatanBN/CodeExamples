@@ -18,7 +18,10 @@ import java.util.Random;
 import static java.lang.Math.abs;
 
 /**
- * Created by Matan on 6/15/2016.
+ * GroupMovement holds the formation of the invaders and in charge of their movement and shots.
+ *
+ * @author Matan Ben Noach Nir Ben Shalom
+ * @version 1.0 9 April 2016
  */
 public class GroupMovement implements Sprite {
     private GameLevel level;
@@ -32,6 +35,15 @@ public class GroupMovement implements Sprite {
     private long startTime;
     private GameEnvironment paddleEnv;
 
+    /**
+     * Constructor creates a list of columns of the invaders and initializes the parameters.
+     *
+     * @param level     the game level of the game.
+     * @param speed     the speed of the formation.
+     * @param group     list of invaders.
+     * @param hit       hit listener.
+     * @param paddleEnv the paddle of the game.
+     */
     public GroupMovement(GameLevel level, double speed, ArrayList<Invader> group, HitListener hit,
                          GameEnvironment paddleEnv) {
         this.level = level;
@@ -41,19 +53,21 @@ public class GroupMovement implements Sprite {
         for (int k = 0; k < 10; ++k) {
             invaders.add(new ArrayList<Invader>());
         }
-        for (int i=0; i<5;i++){
-            for (int j=0; j<10; j++){
-                 invaders.get(j).add(group.get(j+(i*10)));
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 10; j++) {
+                invaders.get(j).add(group.get(j + (i * 10)));
             }
         }
-        mostLeftX=invaders.get(0).get(0).getX();
+        mostLeftX = invaders.get(0).get(0).getX();
         mostRightX = invaders.get(9).get(0).getRectangle().getMaxX();
         maxY = invaders.get(0).get(4).getY();
         this.hit = hit;
         this.paddleEnv = paddleEnv;
     }
 
-
+    /**
+     * goDown changes the y coordinate of the formation.
+     */
     public void goDown() {
         maxY += 10;
         for (ArrayList<Invader> column : invaders) {
@@ -63,6 +77,11 @@ public class GroupMovement implements Sprite {
         }
     }
 
+    /**
+     * drawOn method draws the aliens on a given surface.
+     *
+     * @param d the surface to draw the aliens on.
+     */
     @Override
     public void drawOn(DrawSurface d) {
         for (ArrayList<Invader> column : invaders) {
@@ -72,14 +91,19 @@ public class GroupMovement implements Sprite {
         }
     }
 
+    /**
+     * timePassed is in charge of moving the aliens, checking whether they hit the borders every call.
+     *
+     * @param dt specifies the amount of seconds passed since the last call.
+     */
     @Override
     public void timePassed(double dt) {
         if (mostLeftX + speed * dt <= 20 || mostRightX + speed * dt >= 760) {
             goDown();
             speed *= -1.1;
         }
-        if (maxY >= 500) {
-            hit.hitEvent(new BaseBlock(0, 0, 0, 0, Color.black), new Ball(0, 0, 0,Color.red, new GameEnvironment()));
+        if (maxY >= 480) {
+            hit.hitEvent(new BaseBlock(0, 0, 0, 0, Color.black), new Ball(0, 0, 0, Color.red, new GameEnvironment()));
             return;
         }
         mostRightX += speed * dt;
@@ -93,8 +117,13 @@ public class GroupMovement implements Sprite {
         shoot();
     }
 
-    public void remove (Invader inv){
-        for (ArrayList<Invader> column : invaders){
+    /**
+     * remove is in charge of removing an alien from the game.
+     *
+     * @param inv the invader to remove.
+     */
+    public void remove(Invader inv) {
+        for (ArrayList<Invader> column : invaders) {
             if (column.contains(inv)) {
                 column.remove(inv);
                 if (invaders.get(0).isEmpty()) {
@@ -121,6 +150,9 @@ public class GroupMovement implements Sprite {
         }
     }
 
+    /**
+     * relocateInvaders changes the formation's location on the screen.
+     */
     public void relocateInvaders() {
         int currentX = 40;
         for (ArrayList<Invader> column : invaders) {
@@ -145,6 +177,9 @@ public class GroupMovement implements Sprite {
         startTime = System.currentTimeMillis();
     }
 
+    /**
+     * getMaxY checks which line is the lowest in the formation by the lowest alien that exist.
+     */
     public void getMaxY() {
         double max = 0;
         for (ArrayList<Invader> column : invaders) {
@@ -157,6 +192,9 @@ public class GroupMovement implements Sprite {
         this.maxY = max;
     }
 
+    /**
+     * shoot is in charge of making the lowest aliens in every column to shot randomly.
+     */
     public void shoot() {
         if (abs(System.currentTimeMillis() - startTime) > 500) {
             Random rand = new Random();
@@ -166,8 +204,6 @@ public class GroupMovement implements Sprite {
             } while (invaders.get(chosenColumn).isEmpty());
             ArrayList<Invader> inv = invaders.get(chosenColumn);
             Invader shooter = inv.get(inv.size() - 1);
-            double checkY = shooter.getY();
-            double checkX = shooter.getX();
 
             level.createBall(new Point(shooter.getX() + 15, shooter.getY() + 40), 6, new Velocity(0, 500), Color.red,
                     true);

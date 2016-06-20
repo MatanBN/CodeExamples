@@ -24,10 +24,10 @@ public class Paddle extends BaseBlock {
     /**
      * The constructor creates the paddle.
      *
-     * @param key     is the keyboard sensor in order to move it with the keyboard.
-     * @param rec     is the rectangle with the parameter for the paddle.
-     * @param border  is surface border.
-     * @param speed   the speed of the paddle.
+     * @param key    is the keyboard sensor in order to move it with the keyboard.
+     * @param rec    is the rectangle with the parameter for the paddle.
+     * @param border is surface border.
+     * @param speed  the speed of the paddle.
      */
     public Paddle(biuoop.KeyboardSensor key, geometry.Rectangle rec, Rectangle border, int speed) {
         super(rec);
@@ -53,6 +53,7 @@ public class Paddle extends BaseBlock {
      * moveLeft is in charge of moving the paddle left. The method checks
      * whether the next x coordinate is out left edge or not and moves it as it
      * should.
+     *
      * @param newSpeed the speed to move the paddle.
      */
     public void moveLeft(double newSpeed) {
@@ -69,8 +70,8 @@ public class Paddle extends BaseBlock {
      * moveRight is in charge of moving the paddle right. The method checks
      * whether the next x coordinate is out right edge or not and moves it as it
      * should.
+     *
      * @param newSpeed the speed to move the paddle.
-
      */
     public void moveRight(double newSpeed) {
         Rectangle rectangle = super.getRectangle();

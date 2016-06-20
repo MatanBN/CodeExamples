@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * MenuAnimation display the menu of the game.
+ *
  * @param <T> generic object that the menu has.
  * @author Matan Ben Noach Nir Ben Shalom
  * @version 1.0 9 April 2016

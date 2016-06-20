@@ -40,7 +40,6 @@ public class GameLevel implements Animation {
     private Paddle paddle; // The paddle of the game.
     private LiveIndicator liveIndicator; // The live indicator of the game.
     private long startTime;
-    private long secondTime;
     private int speed;
     private GroupMovement gm;
     private ArrayList<Ball> gameBalls;
@@ -52,6 +51,7 @@ public class GameLevel implements Animation {
      * @param level  the LevelInformation.
      * @param key    the keyboard sensor of the game.
      * @param runner the animation runner of the game.
+     * @param speed  the speed of the invaders.
      */
     public GameLevel(LevelInformation level, KeyboardSensor key, AnimationRunner runner, int speed) {
         sprites = new SpriteCollection();
@@ -132,8 +132,6 @@ public class GameLevel implements Animation {
         playInfo.addToGame(this);
 
 
-
-
         List<Invader> invaders = myLevel.blocks();
         gm = new GroupMovement(this, speed, (ArrayList) invaders, new RemoveLifeListener(this, liveIndicator),
                 paddleEnv);
@@ -173,9 +171,15 @@ public class GameLevel implements Animation {
         addSprite(myScore);
         addSprite(new LevelIndicator(myLevel.levelName()));
         this.startTime = System.currentTimeMillis();
-        this.secondTime = System.currentTimeMillis();
     }
 
+    /**
+     * addDeathBorder creates a block to destroy every ball that hits it.
+     *
+     * @param y      the y coordinate of upper-left corner.
+     * @param width  the width of the block.
+     * @param height the height of the block.
+     */
     private void addDeathBorder(int y, int width, int height) {
         // Create the death border.
         Rectangle r = new Rectangle(0, y, width, height);
@@ -188,9 +192,11 @@ public class GameLevel implements Animation {
     /**
      * createBall method creates a new ball to the game.
      *
-     * @param p      the center point of the ball.
-     * @param radius the radius of the ball.
-     * @param v      the velocity of the ball.
+     * @param p         the center point of the ball.
+     * @param radius    the radius of the ball.
+     * @param v         the velocity of the ball.
+     * @param color     the color of the ball.
+     * @param alienBall true if the ball is shoot from alien.
      */
     public void createBall(Point p, int radius, Velocity v, Color color, boolean alienBall) {
         Ball ball = new Ball(p, radius, color, v, environment);
@@ -243,14 +249,13 @@ public class GameLevel implements Animation {
             this.runner.run(new StopScreenDecorator(keyboard, "j", new PauseScreen(keyboard)));
         }
         if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            if (abs(System.currentTimeMillis() - secondTime) > 350) {
+            if (abs(System.currentTimeMillis() - startTime) > 350) {
                 Rectangle paddleRec = paddle.getCollisionRectangle();
                 createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
                         3, new Velocity(0, -500), Color.white, false);
-                this.secondTime= System.currentTimeMillis();
+                this.startTime = System.currentTimeMillis();
             }
         }
-
 
 
         if (blockCounter.getValue() == 0) {
@@ -268,14 +273,29 @@ public class GameLevel implements Animation {
         return blockCounter;
     }
 
+    /**
+     * setRunning sets true if the current level is running and false if not.
+     *
+     * @param status boolean variable that says whether the current level is running or not.
+     */
     public void setRunning(boolean status) {
         this.running = status;
     }
 
+    /**
+     * removeBall gets a ball and removes it.
+     *
+     * @param b the ball to remove.
+     */
     public void removeBall(Ball b) {
         gameBalls.remove(b);
     }
 
+    /**
+     * addBall adds a ball to the game.
+     *
+     * @param b the ball to add to the game.
+     */
     public void addBall(Ball b) {
         gameBalls.add(b);
     }
