@@ -64,9 +64,9 @@ public class HighScoresAnimation implements Animation {
         d.setColor(Color.orange);
         for (int i = 0; i < scoresTable.currentSize(); ++i) {
             ScoreInfo score = scoresTable.getScore(i);
-            d.drawText(85, 180 * (i + 1), score.getName() , 20);
+            d.drawText(85, 180 + (i * 30), score.getName() , 20);
             playerScore = Integer.toString(score.getScore());
-            d.drawText(485, 180 * (i + 1), playerScore, 20);
+            d.drawText(485, 180 + (i * 30), playerScore, 20);
         }
 
         if (ks.isPressed(KeyboardSensor.SPACE_KEY)) {
