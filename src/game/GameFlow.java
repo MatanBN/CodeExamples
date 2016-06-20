@@ -16,6 +16,7 @@ import biuoop.DialogManager;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import geometry.Rectangle;
+import org.w3c.dom.css.Rect;
 import sprites.LiveIndicator;
 import sprites.ScoreIndicator;
 
@@ -66,10 +67,7 @@ public class GameFlow {
         Task<Void> playGame = new Task<Void>() {
             @Override
             public Void run() {
-                DrawSurface d = ar.getGui().getDrawSurface();
-                List<LevelInformation> levels = new ArrayList<LevelInformation>();
-                levels.add(new Level(new Rectangle(0, 0, d.getWidth(), d.getHeight())));
-                runLevels(levels);
+                runLevels();
                 return null;
             }
         };
@@ -109,14 +107,16 @@ public class GameFlow {
     /**
      * runLevels method runs a given list of levels.
      *
-     * @param theLevels a list of levels.
      */
-    public void runLevels(List<LevelInformation> theLevels) {
+    public void runLevels() {
         LiveIndicator liveIndicator = new LiveIndicator(lives);
         score = new ScoreIndicator();
         int speed = 100;
-        for (LevelInformation levelInfo : theLevels) {
-            GameLevel level = new GameLevel(levelInfo, this.ks, this.ar, speed);
+        DrawSurface d = ar.getGui().getDrawSurface();
+        Rectangle r = new Rectangle(0, 0, d.getWidth(), d.getHeight());
+        int levelNum = 1;
+        while (liveIndicator.getValue() != 0) {
+            GameLevel level = new GameLevel(new Level(r, levelNum), this.ks, this.ar, speed);
             level.initialize(liveIndicator, score);
             while (level.getBlockCounter().getValue() != 0 && liveIndicator.getValue() != 0) {
                 level.playOneTurn();
@@ -129,6 +129,8 @@ public class GameFlow {
             if (liveIndicator.getValue() == 0) {
                 break;
             }
+            speed *= 1.1;
+            ++levelNum;
         }
         ar.run(new StopScreenDecorator(ks, "o", new EndScreen(ks, liveIndicator, score)));
         DialogManager dialog = ar.getGui().getDialogManager();

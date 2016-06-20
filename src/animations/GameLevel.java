@@ -120,7 +120,7 @@ public class GameLevel implements Animation {
         Rectangle paddleRec = new Rectangle(360 - myLevel.paddleWidth() / 2, borders.getHeight() - 51,
                 myLevel.paddleWidth(), 10, Color.green);
         paddle = new Paddle(keyboard, paddleRec, borders, myLevel.paddleSpeed());
-        paddle.addHitListener(new RemoveLifeListener(this,liveIndicator));
+        paddle.addHitListener(new RemoveLifeListener(this, liveIndicator));
         paddle.addHitListener(new BallRemover(this));
         paddle.addToGame(this);
         GameEnvironment paddleEnv = new GameEnvironment();

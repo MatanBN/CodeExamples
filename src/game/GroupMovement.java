@@ -46,7 +46,7 @@ public class GroupMovement implements Sprite {
             }
         }
         mostLeftX=invaders.get(0).get(0).getX();
-        mostRightX=invaders.get(9).get(0).getRectangle().getMaxX();
+        mostRightX = invaders.get(9).get(0).getRectangle().getMaxX();
         maxY = invaders.get(0).get(4).getY();
         this.hit = hit;
         this.paddleEnv = paddleEnv;
@@ -101,14 +101,19 @@ public class GroupMovement implements Sprite {
                     while (i < invaders.size() && invaders.get(i).isEmpty()) {
                         ++i;
                     }
-                    mostLeftX = invaders.get(i).get(0).getX();
+                    if (i != invaders.size()) {
+                        mostLeftX = invaders.get(i).get(0).getX();
+                    }
                 }
                 if (invaders.get(invaders.size() - 1).isEmpty()) {
                     int i = invaders.size() - 2;
                     while (i >= 0 && invaders.get(i).isEmpty()) {
                         --i;
                     }
-                    mostRightX = invaders.get(i).get(0).getRectangle().getMaxX();
+
+                    if (i >= 0) {
+                        mostRightX = invaders.get(i).get(0).getRectangle().getMaxX();
+                    }
                 }
                 break;
             }
@@ -152,20 +157,20 @@ public class GroupMovement implements Sprite {
     }
 
     public void shoot() {
-        if (abs(System.currentTimeMillis() - startTime) > 500){
+        if (abs(System.currentTimeMillis() - startTime) > 500) {
             Random rand = new Random();
             int chosenColumn;
             do {
                 chosenColumn = rand.nextInt(10);
-            } while(invaders.get(chosenColumn).isEmpty());
+            } while (invaders.get(chosenColumn).isEmpty());
             ArrayList<Invader> inv = invaders.get(chosenColumn);
             Invader shooter = inv.get(inv.size() - 1);
             double checkY = shooter.getY();
             double checkX = shooter.getX();
 
-            level.createBall(new Point(shooter.getX() + 15, shooter.getY()+40), 6, new Velocity(0, 500), Color.red,
+            level.createBall(new Point(shooter.getX() + 15, shooter.getY() + 40), 6, new Velocity(0, 500), Color.red,
                     paddleEnv);
-            this.startTime= System.currentTimeMillis();
+            this.startTime = System.currentTimeMillis();
 
 
         }

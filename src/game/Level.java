@@ -17,13 +17,15 @@ import java.util.List;
  */
 public class Level implements LevelInformation {
     private Rectangle r;
+    private int levelNum;
 
     /**
      * Level constructor constructs a new level with r as the game frame.
      * @param r the game frame.
      */
-    public Level(Rectangle r) {
+    public Level(Rectangle r, int levelNum) {
         this.r = r;
+        this.levelNum = levelNum;
     }
 
     /**
@@ -73,7 +75,7 @@ public class Level implements LevelInformation {
      */
     @Override
     public String levelName() {
-        return "Direct Hit";
+        return "Battle No." + levelNum;
     }
 
     /**

@@ -33,7 +33,7 @@ public class Ass7Game {
         } else {
             fileName = "level_sets.txt";
         }
-        GameFlow gameFlow = new GameFlow(myAnimationRunner, gui.getKeyboardSensor(), 7, myScores);
+        GameFlow gameFlow = new GameFlow(myAnimationRunner, gui.getKeyboardSensor(), 3, myScores);
         gameFlow.chooseTask();
     }
 }
