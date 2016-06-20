@@ -1,6 +1,7 @@
 package listeners;
 
 import animations.GameLevel;
+import sprites.Ball;
 import sprites.BaseBlock;
 import sprites.LiveIndicator;
 import sprites.Sprite;
@@ -18,7 +19,7 @@ public class RemoveLifeListener implements HitListener {
     }
 
     @Override
-    public void hitEvent(BaseBlock beingHit, Sprite hitter) {
+    public void hitEvent(BaseBlock beingHit, Ball hitter) {
         liveIndicator.decrease();
         level.setRunning(false);
 

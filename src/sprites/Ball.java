@@ -24,6 +24,7 @@ public class Ball implements Sprite {
     private Color color; // The color of the blue.
     private Velocity v; // The velocity of the ball.
     private GameEnvironment gameEnv; // The game environment of the ball.
+    private boolean alien;
 
     /**
      * Constructor to create the ball.
@@ -216,5 +217,13 @@ public class Ball implements Sprite {
     public void removeFromGame(GameLevel gameLevel) {
         gameLevel.removeSprite(this);
         gameLevel.removeBall(this);
+    }
+
+    public void setAlien(boolean alien) {
+        this.alien = alien;
+    }
+
+    public boolean isAlien() {
+        return alien;
     }
 }

@@ -30,7 +30,7 @@ public class ScoreTrackingListener implements HitListener {
      * @param beingHit is the block that is being hit.
      * @param hitter   is the Ball that's doing the hitting.
      */
-    public void hitEvent(BaseBlock beingHit, Sprite hitter) {
+    public void hitEvent(BaseBlock beingHit, Ball hitter) {
         this.currentScore.increase(100);
     }
 }

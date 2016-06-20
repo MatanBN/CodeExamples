@@ -10,11 +10,8 @@ import game.Velocity;
 import game.LevelInformation;
 import geometry.Rectangle;
 import geometry.Point;
-import listeners.BallRemover;
+import listeners.*;
 
-import listeners.BlockRemover;
-import listeners.RemoveLifeListener;
-import listeners.ScoreTrackingListener;
 import sprites.*;
 
 import java.awt.Color;
@@ -144,7 +141,7 @@ public class GameLevel implements Animation {
 
         sprites.addSprite(gm);
         for (Invader invader : invaders) {
-            invader.addHitListener(new BlockRemover(this, blockCounter));
+            invader.addHitListener(new AlienRemover(this, blockCounter));
             invader.addHitListener(new ScoreTrackingListener(myScore.getScore()));
             invader.addHitListener(new BallRemover(this));
             invader.setGm(gm);
@@ -195,8 +192,9 @@ public class GameLevel implements Animation {
      * @param radius the radius of the ball.
      * @param v      the velocity of the ball.
      */
-    public void createBall(Point p, int radius, Velocity v, Color color, GameEnvironment gameEnv) {
-        Ball ball = new Ball(p, radius, color, v, gameEnv);
+    public void createBall(Point p, int radius, Velocity v, Color color, boolean alienBall) {
+        Ball ball = new Ball(p, radius, color, v, environment);
+        ball.setAlien(alienBall);
         ball.addToGame(this);
     }
 
@@ -248,7 +246,7 @@ public class GameLevel implements Animation {
             if (abs(System.currentTimeMillis() - secondTime) > 350) {
                 Rectangle paddleRec = paddle.getCollisionRectangle();
                 createBall(new Point(paddleRec.getX() + paddleRec.getWidth() / 2, paddleRec.getY() - 10),
-                        3, new Velocity(0, -500), Color.white, environment);
+                        3, new Velocity(0, -500), Color.white, false);
                 this.secondTime= System.currentTimeMillis();
             }
         }

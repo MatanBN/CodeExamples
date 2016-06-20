@@ -19,5 +19,5 @@ public interface HitListener {
      * @param beingHit is the block tat is being hit.
      * @param hitter   is the Ball that's doing the hitting.
      */
-    void hitEvent(BaseBlock beingHit, Sprite hitter);
+    void hitEvent(BaseBlock beingHit, Ball hitter);
 }

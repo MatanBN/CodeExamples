@@ -37,7 +37,7 @@ public class BallRemover implements HitListener {
      * @param deathRegion is the block on the bottom of the screen and in charge of removing the balls.
      * @param beingHit    is the ball that hit the block.
      */
-    public void hitEvent(BaseBlock deathRegion, Sprite beingHit) {
+    public void hitEvent(BaseBlock deathRegion, Ball beingHit) {
         Ball ball = (Ball) beingHit;
         ball.removeFromGame(gameLevel);
     }

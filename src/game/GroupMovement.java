@@ -6,6 +6,7 @@ import biuoop.DrawSurface;
 import environment.GameEnvironment;
 import geometry.Point;
 import listeners.HitListener;
+import sprites.Ball;
 import sprites.BaseBlock;
 import sprites.Invader;
 import sprites.Sprite;
@@ -78,7 +79,7 @@ public class GroupMovement implements Sprite {
             speed *= -1.1;
         }
         if (maxY >= 500) {
-            hit.hitEvent(new BaseBlock(0, 0, 0, 0, Color.black), this);
+            hit.hitEvent(new BaseBlock(0, 0, 0, 0, Color.black), new Ball(0, 0, 0,Color.red, new GameEnvironment()));
             return;
         }
         mostRightX += speed * dt;
@@ -169,7 +170,7 @@ public class GroupMovement implements Sprite {
             double checkX = shooter.getX();
 
             level.createBall(new Point(shooter.getX() + 15, shooter.getY() + 40), 6, new Velocity(0, 500), Color.red,
-                    paddleEnv);
+                    true);
             this.startTime = System.currentTimeMillis();
 
 
