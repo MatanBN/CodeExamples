@@ -1,14 +1,5 @@
 package patterns.factory.good;
 
-import biuoop.DrawSurface;
-import biuoop.GUI;
-import biuoop.Sleeper;
-import patterns.factory.bad.MovingSprite;
-import patterns.factory.bad.SpriteCollection;
-
-/**
- * Created by mcshlain on 6/19/16.
- */
 public class FactoryExample {
 
     public static void main(String[] args) {
