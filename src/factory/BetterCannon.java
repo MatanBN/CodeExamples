@@ -1,20 +1,5 @@
 package patterns.factory.good;
 
-import biuoop.DrawSurface;
-import biuoop.KeyboardSensor;
-import patterns.factory.bad.MovingSprite;
-import patterns.factory.bad.Sprite;
-import patterns.factory.bad.SpriteCollection;
-import patterns.factory.bad.Velocity;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-/**
- * Created by mcshlain on 6/19/16.
- */
 public class BetterCannon implements Sprite {
 
     private KeyboardSensor keyboardSensor;
