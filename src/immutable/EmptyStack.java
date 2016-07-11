@@ -1,4 +1,4 @@
-
+// Space
 public class EmptyStack<E> implements ImmutableStack<E> {
 
     public EmptyStack() {
