@@ -1,16 +1,5 @@
 package patterns.factory.good;
 
-import biuoop.DrawSurface;
-import patterns.factory.bad.MovingSprite;
-import patterns.factory.bad.Velocity;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-/**
- * Created by mcshlain on 6/19/16.
- */
 public class Bird implements MovingSprite {
 
     private BufferedImage[] frames;
