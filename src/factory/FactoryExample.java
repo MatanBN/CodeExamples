@@ -1,9 +1,7 @@
 package patterns.factory.good;
 
 public class FactoryExample {
-
     public static void main(String[] args) {
-
         GUI gui = new GUI("Cannon", 1200, 600);
         Sleeper sleeper = new Sleeper();
         SpriteCollection screen = new SpriteCollection();
