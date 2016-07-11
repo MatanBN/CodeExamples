@@ -1,11 +1,4 @@
-package stack.immutable;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
-/**
- * Created by mcshlain on 7/4/15.
- */
 public class EmptyStack<E> implements ImmutableStack<E> {
 
     public EmptyStack() {
